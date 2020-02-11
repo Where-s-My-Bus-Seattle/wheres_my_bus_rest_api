@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import requests
 import time
 import json
@@ -23,6 +23,7 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
         return HttpResponse(f'ERROR! {bus_route} is not a valid route.')
 
     bus_id = clean_data['bus_id']
+    bus_route = clean_data['bus_route']
     user_lat = clean_data['user_lat']
     user_lon = clean_data['user_lon']
     
@@ -38,6 +39,12 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     closest_direction = closest_stops['closest_direction']
     next_closest_direction = closest_stops['next_closest_direction']
 
+    closest_lat = closest_stops['closest_stop_lat']
+    next_closest_lat = closest_stops['next_closest_stop_lat']
+
+    closest_lon = closest_stops['closest_stop_lon']
+    next_closest_lon = closest_stops['next_closest_stop_lon']
+
     # 3
     # Sequential API calls - Finding estimated Arrival Time of: the specific_bus at the nearest_stop
     closest_arrival = find_estimated_arrival(closest_stops['closest_stop_id'], bus_id)
@@ -46,7 +53,26 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     # 4
     # Check that a valid time was returned from find_estimated_arrival
     if closest_arrival or next_closest_arrival:
-        return HttpResponse(f'<h1>Success!\n User_lat: {user_lat}\n User_lon: {user_lon}\n name_of_closest: {name_of_closest}\n direction: {closest_direction}\n closest_stop_id: {closest_stop_id} closest_minutes: {closest_arrival} name_of_next_closest: {name_of_next_closest}\n direction: {next_closest_direction} next_closest_stop_id: {next_closest_stop_id} next_closest_minutes: {next_closest_arrival}</h1>')
+        # return HttpResponse(f'<h1>Success!\n User_lat: {user_lat}\n User_lon: {user_lon}\n name_of_closest: {name_of_closest}\n direction: {closest_direction}\n closest_stop_id: {closest_stop_id} closest_minutes: {closest_arrival} closest_lat: {closest_lat} closest_lon: {closest_lon} name_of_next_closest: {name_of_next_closest}\n direction: {next_closest_direction} next_closest_stop_id: {next_closest_stop_id} next_closest_minutes: {next_closest_arrival} next_closest_lat: {next_closest_lat} next_closest_lon {next_closest_lon}</h1>')
+        return JsonResponse({
+            'route': bus_route,
+            'closest_stop': { 
+                'closest_name': name_of_closest,
+                'closest_direction': closest_direction,
+                'closest_stop_id': closest_stop_id,
+                'closest_minutes': closest_arrival,
+                'closest_lat': closest_lat,
+                'closest_lon': closest_lon,
+            },
+            'next_closest_stop': {
+                'next_closest_name': name_of_next_closest,
+                'next_closest_direction': next_closest_direction,
+                'next_closest_stop_id': next_closest_stop_id,
+                'next_closest_minutes': next_closest_arrival,
+                'next_closest_lat': next_closest_lat,
+                'next_closest_lon': next_closest_lon,
+            }
+        })
 
     return HttpResponse(f'ERROR! We\'re sorry, route {bus_route} is not available at this time.')
 
@@ -73,7 +99,7 @@ def clean_route_data(lat, lon, bus_route):
     # TODO: elif bus_route+'o' in route_data:
         # handle 20 cases where there are repeated routes (Northern)
 
-    return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon}
+    return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route}
 
 
 
@@ -84,7 +110,9 @@ def find_closest_stops(user_lat, user_lon, bus_id):
     bus_stops = bus_data['data']['references']['stops']
 
     closest, next_closest = None, None
-    closest_stop_id, next_closest_stop_id = 0, 0
+    closest_stop_id, next_closest_stop_id = 0,0
+    closest_stop_lat, next_closest_stop_lat = 0,0
+    closest_stop_lon, next_closest_stop_lon = 0,0
     name_of_closest, name_of_next_closest = 'a', 'b'
     closest_direction, next_closest_direction = 'n', 's'
 
@@ -96,6 +124,11 @@ def find_closest_stops(user_lat, user_lon, bus_id):
 
         if not closest:
             closest = difference
+            name_of_closest = stop['name']
+            closest_direction = stop['direction']
+            closest_stop_id = stop['id']
+            closest_stop_lat = stop['lat']
+            closest_stop_lon = stop['lon']
 
         if difference < closest:
             #change next closest
@@ -103,14 +136,29 @@ def find_closest_stops(user_lat, user_lon, bus_id):
             name_of_next_closest = name_of_closest
             next_closest_direction = closest_direction
             next_closest_stop_id = closest_stop_id
+            next_closest_stop_lat = closest_stop_lat
+            next_closest_stop_lon = next_closest_stop_lat
 
             #updating closest
             closest = difference
             name_of_closest = stop['name']
             closest_direction = stop['direction']
             closest_stop_id = stop['id']
+            closest_stop_lat = stop['lat']
+            closest_stop_lon = stop['lon']
     
-    return {'closest_stop_id':closest_stop_id, 'next_closest_stop_id':next_closest_stop_id, 'name_of_closest':name_of_closest, 'name_of_next_closest':name_of_next_closest, 'closest_direction':closest_direction, 'next_closest_direction':next_closest_direction}
+    return {
+        'closest_stop_id':closest_stop_id,
+        'next_closest_stop_id':next_closest_stop_id,
+        'name_of_closest':name_of_closest,
+        'name_of_next_closest':name_of_next_closest,
+        'closest_direction':closest_direction,
+        'next_closest_direction':next_closest_direction,
+        'closest_stop_lon':closest_stop_lon,
+        'closest_stop_lat':closest_stop_lat,
+        'next_closest_stop_lat':next_closest_stop_lat,
+        'next_closest_stop_lon':next_closest_stop_lon
+    }
 
 
 
