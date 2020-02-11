@@ -1,0 +1,41 @@
+{
+    "code":200,
+    "currentTime":1581394243586,
+    "data":{
+        "limitExceeded":false,
+        "list":[
+            {"agencyId":"97","color":"000000","description":"","id":"97_10","longName":"E to Boeing - W to Mukilteo","shortName":"70","textColor":"FFFFFF","type":3,"url":""},
+            {"agencyId":"97","color":"000000","description":"","id":"97_1","longName":"S to Mariner P&R - N to Mall Station","shortName":"2","textColor":"FFFFFF","type":3,"url":""},
+            {"agencyId":"97","color":"000000","description":"","id":"97_2","longName":"S to Seaway TC - N to Everett Station","shortName":"3","textColor":"FFFFFF","type":3,"url":""},
+            {"agencyId":"97","color":"000000","description":"","id":"97_3","longName":"S to Everett Station - N to College Station","shortName":"4","textColor":"FFFFFF","type":3,"url":""},
+            {"agencyId":"97","color":"000000","description":"","id":"97_4","longName":"N to College Station  - S to Everett Station","shortName":"6","textColor":"FFFFFF","type":3,"url":""},
+            {"agencyId":"97","color":"000000","description":"","id":"97_5","longName":"S to Mall Station - N to College Station","shortName":"7","textColor":"FFFFFF","type":3,"url":""},
+            {"agencyId":"97","color":"000000","description":"","id":"97_6","longName":"S to Airport Rd - N to Everett Station","shortName":"8","textColor":"FFFFFF","type":3,"url":""},
+            {"agencyId":"97","color":"000000","description":"","id":"97_7","longName":"W to Seaway TC - E to Mall Station","shortName":"12","textColor":"FFFFFF","type":3,"url":""},
+            {"agencyId":"97","color":"000000","description":"","id":"97_8","longName":"W to Mukilteo - E to Everett Station","shortName":"18","textColor":"FFFFFF","type":3,"url":""},
+            {"agencyId":"97","color":"000000","description":"","id":"97_9","longName":"N to College Station - S to Mall Station","shortName":"29","textColor":"FFFFFF","type":3,"url":""}
+        ],
+        "references":{
+            "agencies":[
+                {
+                    "disclaimer":"",
+                    "email":"",
+                    "fareUrl":"http://www.everetttransit.org/",
+                    "id":"97",
+                    "lang":"en",
+                    "name":"Everett Transit",
+                    "phone":"",
+                    "privateService":false,
+                    "timezone":"America/Los_Angeles",
+                    "url":"http://www.everetttransit.org/"
+                }
+            ],
+            "routes":[],
+            "situations":[],
+            "stops":[],
+            "trips":[]
+        }
+    },
+    "text":"OK",
+    "version":2
+}

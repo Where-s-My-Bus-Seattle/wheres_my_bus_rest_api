@@ -1,0 +1,33 @@
+{
+    "code":200,
+    "currentTime":1581394488253,
+    "data":{
+        "limitExceeded":false,
+        "list":[
+            {"agencyId":"96","color":"","description":"","id":"96_A","longName":"Seattle Monorail","shortName":"Monorail-WL","textColor":"","type":0,"url":""},
+            {"agencyId":"96","color":"","description":"","id":"96_B","longName":"Seattle Monorail","shortName":"Monorail-SC","textColor":"","type":0,"url":""}
+        ],
+        "references":{
+            "agencies":[
+                {
+                    "disclaimer":"",
+                    "email":"",
+                    "fareUrl":"",
+                    "id":"96",
+                    "lang":"EN",
+                    "name":"SeattleCenterMonorail",
+                    "phone":"2069052620",
+                    "privateService":false,
+                    "timezone":"America/Los_Angeles",
+                    "url":"http://www.seattlemonorail.com"
+                }
+            ],
+            "routes":[],
+            "situations":[],
+            "stops":[],
+            "trips":[]
+        }
+    },
+    "text":"OK",
+    "version":2
+}

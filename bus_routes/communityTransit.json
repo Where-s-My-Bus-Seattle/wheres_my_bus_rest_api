@@ -1,0 +1,78 @@
+{
+    "code":200,
+    "currentTime":1581394669388,
+    "data":{
+        "limitExceeded":false,
+        "list":[
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_421","longName":"Marysville - Seattle","shortName":"421","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_422","longName":"Stanwood - Seattle","shortName":"422","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_424","longName":"Snohomish - Seattle","shortName":"424","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_425","longName":"Lake Stevens - Seattle","shortName":"425","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_435","longName":"Mill Creek - Seattle","shortName":"435","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_201","longName":"Smokey Point - Lynnwood","shortName":"201","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_202","longName":"Smokey Point - Lynnwood","shortName":"202","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_209","longName":"Smokey Point - Lake Stevens","shortName":"209","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_220","longName":"Arlington - Smokey Point","shortName":"220","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_101","longName":"Mariner P&R - Aurora Village","shortName":"101","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_222","longName":"Marysville - Tulalip","shortName":"222","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_105","longName":"Hardeson Road - Bothell","shortName":"105","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_106","longName":"Mariner P&R - Bothell","shortName":"106","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_227","longName":"Arlington - Seaway Transit Center","shortName":"227","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_107","longName":"Lynnwood - Seaway Transit Center","shortName":"107","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_109","longName":"Ash Way P&R - Lake Stevens","shortName":"109","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_230","longName":"Darrington - Smokey Point","shortName":"230","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_111","longName":"Brier - Mountlake Terrace","shortName":"111","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_112","longName":"Mountlake Terrace - Ash Way P&R","shortName":"112","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_113","longName":"Mukilteo - Lynnwood TC","shortName":"113","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_115","longName":"McCollum Park P&R - Aurora Village","shortName":"115","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_116","longName":"Silver Firs - Edmonds","shortName":"116","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_119","longName":"Ash Way P&R - Mountlake Terrace","shortName":"119","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_240","longName":"Stanwood - Smokey Point","shortName":"240","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_120","longName":"Canyon Park -Edmonds CC","shortName":"120","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_247","longName":"Stanwood - Seaway Transit Center","shortName":"247","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_130","longName":"Edmonds - Lynnwood","shortName":"130","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_270","longName":"Gold Bar - Everett","shortName":"270","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_271","longName":"Gold Bar - Everett","shortName":"271","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_280","longName":"Granite Falls - Everett","shortName":"280","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_196","longName":"Ash Way P&R- Edmonds","shortName":"196","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_810","longName":"McCollum Park - University District","shortName":"810","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_821","longName":"Marysville - University District","shortName":"821","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_701","longName":"Everett - Aurora Village","shortName":"Swift Blue","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_702","longName":"Seaway - Canyon Park","shortName":"Swift Green","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_855","longName":"Lynnwood - University District","shortName":"855","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_860","longName":"McCollum Park - University District","shortName":"860","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_871","longName":"Edmonds P&R - University District","shortName":"871","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_880","longName":"Mukilteo - University District","shortName":"880","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_402","longName":"Lynnwood - Seattle","shortName":"402","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_405","longName":"Edmonds P&R - Seattle","shortName":"405","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_410","longName":"Mariner P&R - Seattle","shortName":"410","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_412","longName":"Silver Firs - Seattle","shortName":"412","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_413","longName":"Swamp Creek P&R - Seattle","shortName":"413","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_415","longName":"North Lynnwood - Seattle","shortName":"415","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_416","longName":"Edmonds - Seattle","shortName":"416","textColor":"ffffff","type":3,"url":""},
+            {"agencyId":"29","color":"0070c0","description":"","id":"29_417","longName":"Mukilteo - Seattle","shortName":"417","textColor":"ffffff","type":3,"url":""}
+        ]
+        ,"references":{
+            "agencies":[
+                {
+                    "disclaimer":"",
+                    "email":"riders@commtrans.org",
+                    "fareUrl":"https://www.communitytransit.org/fares/fares-and-passes",
+                    "id":"29",
+                    "lang":"en",
+                    "name":"Community Transit",
+                    "phone":"(800) 562-1375",
+                    "privateService":false,
+                    "timezone":"America/Los_Angeles",
+                    "url":"http://www.communitytransit.org/"
+                }
+            ],
+            "routes":[],
+            "situations":[],
+            "stops":[],
+            "trips":[]
+        }
+    },
+    "text":"OK",
+    "version":2
+}

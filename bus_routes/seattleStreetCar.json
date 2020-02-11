@@ -1,0 +1,33 @@
+{
+    "code":200,
+    "currentTime":1581395049833,
+    "data":{
+        "limitExceeded":false,
+        "list":[
+            {"agencyId":"23","color":"","description":"Streetcar: Fairview/Aloha - Westlake/McGraw","id":"23_100340","longName":"","shortName":"South Lake Union Streetcar","textColor":"","type":0,"url":"http://www.seattlestreetcar.org/slu.htm"},
+            {"agencyId":"23","color":"","description":"Streetcar: Pioneer Square - Capitol Hill","id":"23_102638","longName":"","shortName":"First Hill Streetcar","textColor":"","type":0,"url":"http://www.seattlestreetcar.org/slu.htm"}
+        ],
+        "references":{
+            "agencies":[
+                {
+                    "disclaimer":"",
+                    "email":"",
+                    "fareUrl":"http://www.seattlestreetcar.org/",
+                    "id":"23",
+                    "lang":"EN",
+                    "name":"City of Seattle",
+                    "phone":"206-684-7623",
+                    "privateService":false,
+                    "timezone":"America/Los_Angeles",
+                    "url":"http://www.seattle.gov"
+                }
+            ],
+            "routes":[],
+            "situations":[],
+            "stops":[],
+            "trips":[]
+        }
+    },
+    "text":"OK",
+    "version":2
+}
