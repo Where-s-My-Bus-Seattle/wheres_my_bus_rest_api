@@ -131,13 +131,14 @@ def find_closest_stops(user_lat, user_lon, bus_id):
             closest_stop_lon = stop['lon']
 
         if difference < closest:
-            #change next closest
-            next_closest = closest
-            name_of_next_closest = name_of_closest
-            next_closest_direction = closest_direction
-            next_closest_stop_id = closest_stop_id
-            next_closest_stop_lat = closest_stop_lat
-            next_closest_stop_lon = next_closest_stop_lat
+            if stop['direction'] != closest_direction: # find different direction
+                #change next closest
+                next_closest = closest
+                name_of_next_closest = name_of_closest
+                next_closest_direction = closest_direction
+                next_closest_stop_id = closest_stop_id
+                next_closest_stop_lat = closest_stop_lat
+                next_closest_stop_lon = closest_stop_lon
 
             #updating closest
             closest = difference
