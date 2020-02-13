@@ -7,7 +7,10 @@ import json
 with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
 
-
+def show_me_the_request(request, lat, lon):
+    print('request: ', request)
+    print('request.body: ', request.body)
+    
 
 def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     """
@@ -131,6 +134,8 @@ def find_closest_stops(user_lat, user_lon, bus_id):
             closest_stop_lon = stop['lon']
 
         if difference < closest:
+
+##################### this line here#######################################
             if stop['direction'] != closest_direction: # find different direction
                 #change next closest
                 next_closest = closest
