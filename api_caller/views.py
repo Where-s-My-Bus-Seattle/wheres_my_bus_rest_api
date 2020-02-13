@@ -5,8 +5,8 @@ import time
 import json
 
 
-# with open('bus_routes/finalRoutesAndIds.json') as all_routes:
-#     route_data = json.load(all_routes)
+with open('bus_routes/finalRoutesAndIds.json') as all_routes:
+    route_data = json.load(all_routes)
 
 
 
