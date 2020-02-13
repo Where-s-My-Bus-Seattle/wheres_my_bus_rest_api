@@ -85,6 +85,8 @@ def clean_route_data(lat, lon, bus_route):
     query = bus_route.lower().split()
     alphabet = set(['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'])
     num_chars = set('1234567890')
+    key_words = set(['line', 'route', 'bus'])
+
     special_cases = {
     'link': ['link'], 
     'sounder':['swift south', 'swift north'],
@@ -100,16 +102,19 @@ def clean_route_data(lat, lon, bus_route):
             print('found key word: ', query[word])
             if query[word -1]: #if theres a word in front of the key word
                 if query[word-1] in alphabet:
-                    result += query[word-1]
+                    result += query[word-1].upper()
                     result +='-Line'
+                    break
                 if any(char in query[word-1] for char in num_chars):
                     result += query[word-1]
+                    break
 
             if query[word +1]: #if theres a word after the key word
                 if query[word+1] in alphabet:
                     result += query[word +1]
                 if any(char in query[word+1] for char in num_chars):   
                     result += query[word+1]
+                    break
         else:
             if any(char in query[word] for char in num_chars):
                 result += query[word]
@@ -121,11 +126,21 @@ def clean_route_data(lat, lon, bus_route):
             else:
                 if query[word +1] in special_cases[query[word]][0]:
                     result += special_cases[query[word]][0]
+                    break
                 if query[word +1] in special_cases[query[word]][1]:
                     result += special_cases[query[word]][0]
+                    break
+
+ 
     
-    print(result)
     bus_route = result
+    print(bus_route)
+    # Check our dictionary of Puget Sound Area Routes
+    if bus_route not in route_data:
+        return None
+    # TODO: elif bus_route+'o' in route_data:
+        # handle 20 cases where there are repeated routes (Northern)
+
     return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route}
 
 def clean_route_data_deprecated(lat, lon, bus_route):
@@ -136,7 +151,6 @@ def clean_route_data_deprecated(lat, lon, bus_route):
 
     alphabet = set(['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'])
     special_cases = ['link', 'sounder south','amtrak','sounder north','tlink','swift blue','swift green','duvall monroe shuttle','trailhead direct mt. si','trailhead direct mailbox peak','trailhead direct cougar mt.','trailhead direct issaquah alps']
-    key_words = set(['line', 'route', 'bus'])
     
     
     # Check for non-integer route numbers. Format them to be "<capitol letter> -Line"
@@ -239,4 +253,4 @@ def find_estimated_arrival(stop_id, bus_id):
 
 
 if __name__ == "__main__":
-    pass
+    clean_route_data(1, 2, 'when does the line 525 line arrive')
