@@ -5,7 +5,7 @@ from rest_framework.views import APIView
 import requests
 import time
 import json
-from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import ensure_csrf_cookie
 
 
 
@@ -26,9 +26,10 @@ with open('bus_routes/finalRoutesAndIds.json') as all_routes:
 #         print("Error {} : ".format(e) )
 
 
-@csrf_exempt
-class show_me_the_request(APIView):
 
+class show_me_the_request(APIView):
+    
+    @ensure_csrf_cookie
     def post(self, request, lat, lon, format=None):
         theFile = request.body
         # 1st .wav to text
