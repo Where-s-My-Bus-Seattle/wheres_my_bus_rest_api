@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from rest_framework.views import APIView
-import speech_recognition as sr
+import speechRecognition as sr
 import requests
 import time
 import json
