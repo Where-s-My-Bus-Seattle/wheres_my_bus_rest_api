@@ -5,14 +5,15 @@ import time
 import json
 
 
-with open('../bus_routes/finalRoutesAndIds.json') as all_routes:
+with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
     print(route_data)
+
 
 def show_me_the_request(request, lat, lon):
     print('request: ', request)
     print('request.body: ', request.body)
-    
+
 
 def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     """
@@ -82,11 +83,11 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     return HttpResponse(f'ERROR! We\'re sorry, route {bus_route} is not available at this time.')
 
 def clean_route_data(lat, lon, bus_route):
+    query = bus_route.lower().split()
     user_lat = float(lat) or 47.9365944 
     user_lon = float(lon) or -122.219628
-
     result=''
-    query = bus_route.lower().split()
+
     alphabet = set(['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'])
     num_chars = set('1234567890')
     key_words = set(['line', 'route', 'bus'])
@@ -103,14 +104,20 @@ def clean_route_data(lat, lon, bus_route):
 
     for word in range(len(query)):
 
-        #if the word is a key word, grab the first word before the key if it
+        if query[word] in alphabet:
+            result += query[word].upper()
+            result +='-Line'
+            break
+
         # is a number or leter
         if query[word] in key_words:
             print('found key word: ', query[word])
+            #if the word is a key word, grab the first word before the key if it
             if query[word -1]: 
                 if query[word-1] in alphabet:
                     result += query[word-1].upper()
                     result +='-Line'
+                    break
                 if any(char in query[word-1] for char in num_chars):
                     result += query[word-1]
                     break
@@ -120,6 +127,7 @@ def clean_route_data(lat, lon, bus_route):
                 if query[word+1] in alphabet:
                     result += query[word +1].upper()
                     result +='-Line'
+                    break
                 if any(char in query[word+1] for char in num_chars):   
                     result += query[word+1]
                     break
@@ -134,14 +142,14 @@ def clean_route_data(lat, lon, bus_route):
         if query[word] in special_cases:
             if len(special_cases[query[word]]) == 1:
                 result += special_cases[query[word]][0]  
+                break
             else:
                 if query[word +1] in special_cases[query[word]][0]:
                     result += special_cases[query[word]][0]
-                    
+                    break
                 if query[word +1] in special_cases[query[word]][1]:
                     result += special_cases[query[word]][1]
-                    
-
+                    break
     
     bus_route = result
     print(bus_route)
@@ -255,4 +263,5 @@ def find_estimated_arrival(stop_id, bus_id):
             return ((arrival_time - current_time)//60000) # time in minutes (rounded)
 
     return None
+
 
