@@ -7,6 +7,7 @@ import json
 
 with open('../bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
+    print(route_data)
 
 def show_me_the_request(request, lat, lon):
     print('request: ', request)
@@ -197,33 +198,27 @@ def find_closest_stops(user_lat, user_lon, bus_id):
         difference = difference_lat + difference_lon
 
         if not closest:
-            closest = difference
-            name_of_closest = stop['name']
-            closest_direction = stop['direction']
-            closest_stop_id = stop['id']
-            closest_stop_lat = stop['lat']
-            closest_stop_lon = stop['lon']
+            closest, next_closest = difference, difference
 
         if difference < closest:
 
-##################### this line here#######################################
-            if stop['direction'] != closest_direction: # find different direction
-                #change next closest
-                next_closest = closest
-                name_of_next_closest = name_of_closest
-                next_closest_direction = closest_direction
-                next_closest_stop_id = closest_stop_id
-                next_closest_stop_lat = closest_stop_lat
-                next_closest_stop_lon = closest_stop_lon
-
-            #updating closest
+            # updating closest
             closest = difference
             name_of_closest = stop['name']
             closest_direction = stop['direction']
             closest_stop_id = stop['id']
             closest_stop_lat = stop['lat']
             closest_stop_lon = stop['lon']
-    
+
+        if difference < next_closest and difference != closest:
+            #change next closest
+            next_closest = difference
+            name_of_next_closest = stop['name']
+            next_closest_direction = stop['direction']
+            next_closest_stop_id = stop['id']
+            next_closest_stop_lat = stop['lat']
+            next_closest_stop_lon = stop['lon']
+
     return {
         'closest_stop_id':closest_stop_id,
         'next_closest_stop_id':next_closest_stop_id,
