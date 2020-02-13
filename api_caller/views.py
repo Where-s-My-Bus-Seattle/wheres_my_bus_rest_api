@@ -4,46 +4,9 @@ import requests
 import time
 import json
 
-number_words_ones = {
-    'o': '0',
-    'oh': '0',
-    'zero': '0',
-    'one': '1',
-    'two': '2',
-    'three': '3',
-    'four': '4',
-    'five': '5',
-    'six': '6',
-    'seven': '7',
-    'eight': '8',
-    'nine': '9',
 
-    'hundred': '0'
-}
-
-number_words_tens = {
-    'ten': '10',
-    'eleven': '11',
-    'twelve': '12',
-    'thirteen': '13',
-    'fourteen': '14',
-    'fifteen': '15',
-    'sixteen': '16',
-    'seventeen': '17',
-    'eighteen': '18',
-    'nineteen': '19',
-    'twenty': '20',
-    'thirty': '30',
-    'forty': '40',
-    'fifty': '50',
-    'sixty': '60',
-    'seventy': '70',
-    'eighty': '80',
-    'ninety': '90',
-    }
-
-# with open('bus_routes/finalRoutesAndIds.json') as all_routes:
-#     route_data = json.load(all_routes)
+with open('bus_routes/finalRoutesAndIds.json') as all_routes:
+    route_data = json.load(all_routes)
 
 
 
@@ -114,9 +77,58 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
 
     return HttpResponse(f'ERROR! We\'re sorry, route {bus_route} is not available at this time.')
 
-
-
 def clean_route_data(lat, lon, bus_route):
+    user_lat = float(lat) or 47.9365944 
+    user_lon = float(lon) or -122.219628
+
+    result=''
+    query = bus_route.lower().split()
+    alphabet = set(['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'])
+    num_chars = set('1234567890')
+    special_cases = {
+    'link': ['link'], 
+    'sounder':['swift south', 'swift north'],
+    'amtrak':['amtrak'],
+    'tlink': ['tlink'],
+    'swift':['swift blue', 'swift green'],
+    'duvall':['duvall monroe shuttle'],
+    'trailhead': ['trailhead direct mt. si','trailhead direct mailbox peak','trailhead direct cougar mt.','trailhead direct issaquah alps']
+    }
+
+    for word in range(len(query)):
+        if query[word] in key_words:
+            print('found key word: ', query[word])
+            if query[word -1]: #if theres a word in front of the key word
+                if query[word-1] in alphabet:
+                    result += query[word-1]
+                    result +='-Line'
+                if any(char in query[word-1] for char in num_chars):
+                    result += query[word-1]
+
+            if query[word +1]: #if theres a word after the key word
+                if query[word+1] in alphabet:
+                    result += query[word +1]
+                if any(char in query[word+1] for char in num_chars):   
+                    result += query[word+1]
+        else:
+            if any(char in query[word] for char in num_chars):
+                result += query[word]
+                break #for now, we're just assuming the first number is the bus route so don't remove this break
+        
+        if query[word] in special_cases:
+            if len(special_cases[query[word]]) == 1:
+                result += special_cases[query[word]][0]
+            else:
+                if query[word +1] in special_cases[query[word]][0]:
+                    result += special_cases[query[word]][0]
+                if query[word +1] in special_cases[query[word]][1]:
+                    result += special_cases[query[word]][0]
+    
+    print(result)
+    bus_route = result
+    return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route}
+
+def clean_route_data_deprecated(lat, lon, bus_route):
     # Clean input
     bus_route = bus_route.lower()
     user_lat = float(lat) or 47.9365944 
@@ -227,86 +239,4 @@ def find_estimated_arrival(stop_id, bus_id):
 
 
 if __name__ == "__main__":
-    number_words_ones = {
-    'o': '0',
-    'oh': '0',
-    'zero': '0',
-    'one': '1',
-    'two': '2',
-    'three': '3',
-    'four': '4',
-    'five': '5',
-    'six': '6',
-    'seven': '7',
-    'eight': '8',
-    'nine': '9',
-
-    'hundred': '0'
-}
-
-    number_words_tens = {
-    'ten': '10',
-    'eleven': '11',
-    'twelve': '12',
-    'thirteen': '13',
-    'fourteen': '14',
-    'fifteen': '15',
-    'sixteen': '16',
-    'seventeen': '17',
-    'eighteen': '18',
-    'nineteen': '19',
-    'twenty': '20',
-    'thirty': '30',
-    'forty': '40',
-    'fifty': '50',
-    'sixty': '60',
-    'seventy': '70',
-    'eighty': '80',
-    'ninety': '90',
-    }
-
-    alphabet = set(['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'])
-    num_chars = set('1234567890')
-    special_cases = set(['link', 'sounder south','amtrak','sounder north','tlink','swift blue','swift green','duvall monroe shuttle','trailhead direct mt. si','trailhead direct mailbox peak','trailhead direct cougar mt.','trailhead direct issaquah alps'])
-    key_words = set(['line', 'route', 'bus'])
-
-    def my_other_function(bus_route):
-        result=''
-        query = bus_route.split()
-
-        for word in range(len(query)):
-            if query[word] in key_words:
-                print('found key word: ', query[word])
-                if query[word -1]: #if theres a word in front of the key word
-                    if query[word-1] in alphabet:
-                        result += query[word-1]
-                    if any(char in query[word-1] for char in num_chars):
-                        result += query[word-1]
-
-                if query[word +1]: #if theres a word after the key word
-                    if query[word+1] in alphabet:
-                        result += query[word +1]
-                    if any(char in query[word+1] for char in num_chars):   
-                        result += query[word+1]                 
-        
-        print(result)
-        return result
-
-
-    def my_function(bus_route):
-        query = bus_route.split()
-        for word in range(len(query)):
-            if query[word] in number_words_ones:
-                temp = number_words_ones[query[word]]    
-                if query[word +1] in number_words_ones:
-                    temp += number_words_ones[query[word +1]]
-                    if query[word +2] in number_words_ones:
-                        temp += number_words_ones[query[word +2]]
-                elif query[word+1] in number_words_tens:
-                    if query[word + 2] in number_words_ones:
-                        temp += number_words_tens[query[word +1]][0]
-                        temp += number_words_ones[query[word+2]]
-
-                print(temp)
-                return temp
-my_other_function('when does bus 55 reach 4th and denny')
+    pass
