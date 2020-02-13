@@ -5,7 +5,6 @@ from rest_framework.views import APIView
 import requests
 import time
 import json
-from django.views.decorators.csrf import ensure_csrf_cookie
 
 
 
@@ -29,19 +28,18 @@ with open('bus_routes/finalRoutesAndIds.json') as all_routes:
 
 class show_me_the_request(APIView):
     
-    @ensure_csrf_cookie
     def post(self, request, lat, lon, format=None):
         theFile = request.body
         # 1st .wav to text
         theBusRoute = '8' #the ana-leo function (.wav to text)
 
-        get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute)
+        return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute)
         
         #2. Gets the two closest stops (both directions)
         # 3. Finds the soonest arrival time of the requested bus at both stops
         # 4. Returns (for each direction): [bus_id, direction, stop_name, arrival time (in minutes)]
 
-        return HttpResponse()
+        # return HttpResponse()
 
 # def show_me_the_request(request, lat, lon):
 
@@ -92,6 +90,8 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
 
     # 4
     # Check that a valid time was returned from find_estimated_arrival
+    print('NC: ', name_of_closest, 'cArrival: ', closest_arrival, 'NNC: ', name_of_next_closest, 'nCArrival', next_closest_arrival)
+    
     if closest_arrival or next_closest_arrival:
         # return HttpResponse(f'<h1>Success!\n User_lat: {user_lat}\n User_lon: {user_lon}\n name_of_closest: {name_of_closest}\n direction: {closest_direction}\n closest_stop_id: {closest_stop_id} closest_minutes: {closest_arrival} closest_lat: {closest_lat} closest_lon: {closest_lon} name_of_next_closest: {name_of_next_closest}\n direction: {next_closest_direction} next_closest_stop_id: {next_closest_stop_id} next_closest_minutes: {next_closest_arrival} next_closest_lat: {next_closest_lat} next_closest_lon {next_closest_lon}</h1>')
         return JsonResponse({
@@ -186,7 +186,7 @@ def clean_route_data(lat, lon, bus_route):
                     break
     
     bus_route = result
-    # print(bus_route)
+    print(bus_route)
     # Check our dictionary of Puget Sound Area Routes
     if bus_route not in route_data:
         return None
