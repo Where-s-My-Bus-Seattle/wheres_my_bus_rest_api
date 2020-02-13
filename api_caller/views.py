@@ -1,10 +1,12 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse, Response
+from django.http import HttpResponse, JsonResponse
 from rest_framework.views import APIView
 # import speech_recognition as sr
 import requests
 import time
 import json
+from django.views.decorators.csrf import csrf_exempt
+
 
 
 with open('bus_routes/finalRoutesAndIds.json') as all_routes:
@@ -23,6 +25,8 @@ with open('bus_routes/finalRoutesAndIds.json') as all_routes:
 #     except Exception as e:
 #         print("Error {} : ".format(e) )
 
+
+@csrf_exempt
 class show_me_the_request(APIView):
 
     def post(self, request, lat, lon, format=None):
