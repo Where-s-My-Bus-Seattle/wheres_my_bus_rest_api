@@ -101,9 +101,6 @@ def clean_route_data(lat, lon, bus_route):
     }
 
     for word in range(len(query)):
-        if query[word] in alphabet:
-            result += query[word-1].upper()
-            result +='-Line'
 
         #if the word is a key word, grab the first word before the key if it
         # is a number or leter
@@ -115,19 +112,21 @@ def clean_route_data(lat, lon, bus_route):
                     result +='-Line'
                 if any(char in query[word-1] for char in num_chars):
                     result += query[word-1]
-            
+                    break
+
             # grabs the first word after the key if it is a letter or number           
             if query[word +1]:
                 if query[word+1] in alphabet:
-                    result += query[word +1]
+                    result += query[word +1].upper()
+                    result +='-Line'
                 if any(char in query[word+1] for char in num_chars):   
                     result += query[word+1]
                     break
         else:
-            # if no key words are found, but any word is a number
+            # if no key words are found, grab the first number found
             if any(char in query[word] for char in num_chars):
                 result += query[word]
-                break #for now, we're just assuming the first number is the bus route so don't remove this break
+                break
         
         # checks if word is a key in special case, and returns a value inside
         # that key's list
@@ -150,7 +149,6 @@ def clean_route_data(lat, lon, bus_route):
         return None
     # TODO: elif bus_route+'o' in route_data:
         # handle 20 cases where there are repeated routes (Northern)
-
     return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route}
 
 def clean_route_data_deprecated(lat, lon, bus_route):
@@ -263,6 +261,3 @@ def find_estimated_arrival(stop_id, bus_id):
 
     return None
 
-
-if __name__ == "__main__":
-    pass
