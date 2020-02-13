@@ -253,4 +253,4 @@ def find_estimated_arrival(stop_id, bus_id):
 
 
 if __name__ == "__main__":
-    clean_route_data(1, 2, 'when does the line 525 line arrive')
+    pass
