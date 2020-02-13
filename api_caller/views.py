@@ -36,7 +36,7 @@ class show_me_the_request(APIView):
         # 3. Finds the soonest arrival time of the requested bus at both stops
         # 4. Returns (for each direction): [bus_id, direction, stop_name, arrival time (in minutes)]
 
-        return Response()
+        return Response(200)
     
 
 def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
