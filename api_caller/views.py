@@ -5,7 +5,7 @@ import time
 import json
 
 
-with open('bus_routes/finalRoutesAndIds.json') as all_routes:
+with open('../bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
 
 
@@ -102,32 +102,35 @@ def clean_route_data(lat, lon, bus_route):
             result += query[word-1].upper()
             result +='-Line'
 
+        #if the word is a key word, grab the first word before the key if it
+        # is a number or leter
         if query[word] in key_words:
             print('found key word: ', query[word])
-            if query[word -1]: #if theres a word in front of the key word
+            if query[word -1]: 
                 if query[word-1] in alphabet:
                     result += query[word-1].upper()
                     result +='-Line'
-                    
                 if any(char in query[word-1] for char in num_chars):
                     result += query[word-1]
-                    
-
-            if query[word +1]: #if theres a word after the key word
+            
+            # grabs the first word after the key if it is a letter or number           
+            if query[word +1]:
                 if query[word+1] in alphabet:
                     result += query[word +1]
                 if any(char in query[word+1] for char in num_chars):   
                     result += query[word+1]
                     break
         else:
+            # if no key words are found, but any word is a number
             if any(char in query[word] for char in num_chars):
                 result += query[word]
                 break #for now, we're just assuming the first number is the bus route so don't remove this break
         
+        # checks if word is a key in special case, and returns a value inside
+        # that key's list
         if query[word] in special_cases:
             if len(special_cases[query[word]]) == 1:
-                result += special_cases[query[word]][0]
-                
+                result += special_cases[query[word]][0]  
             else:
                 if query[word +1] in special_cases[query[word]][0]:
                     result += special_cases[query[word]][0]
