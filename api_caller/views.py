@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
+from rest_framework.views import APIView
+import speech_recognition as sr
 import requests
 import time
 import json
@@ -8,9 +10,37 @@ with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
     print(route_data)
 
-def show_me_the_request(request, lat, lon):
-    print('request: ', request)
-    print('request.body: ', request.body)
+def voice_to_text(path):
+     sound = path
+    r = sr.Recognizer()
+    with sr.AudioFile(sound) as source:
+        r.adjust_for_ambient_noise(source)
+        print("Converting Audio To Text ..... ")
+        audio = r.listen(source)
+    try:
+        print("Converted Audio Is : \n" + r.recognize_google(audio))
+    except Exception as e:
+        print("Error {} : ".format(e) )
+
+class show_me_the_request(APIView):
+
+    def post(self, request, lat, lon, format=None):
+        theFile = request.body
+        # 1st .wav to text
+        theBusRoute = '8' #the ana-leo function (.wav to text)
+
+        get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute)
+        
+        #2. Gets the two closest stops (both directions)
+        # 3. Finds the soonest arrival time of the requested bus at both stops
+        # 4. Returns (for each direction): [bus_id, direction, stop_name, arrival time (in minutes)]
+
+        return Response()
+
+# def show_me_the_request(request, lat, lon):
+
+#     print('request: ', request)
+#     print('request.body: ', request.body)
     
 
 def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
