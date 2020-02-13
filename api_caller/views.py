@@ -3,12 +3,29 @@ from django.http import HttpResponse, JsonResponse
 import requests
 import time
 import json
+import speech_recognition as sr
 
 with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
 
+def voice_get_a_routes_closest_stop_and_arrival_time(request, lat, lon):
 
 
+    """
+    
+    1. Convert audio to text
+    2. Extract bus number from the text
+    3. Gets the two closest stops (both directions)
+    4. Finds the soonest arrival time of the requested bus at both stops
+    5. Returns (for each direction): [bus_id, direction, stop_name, arrival time (in minutes)]
+    """
+    
+    voice_to_text = voice_to_text(request)
+    return get_aroutes_closest_stop_and_arrival_time(request, lat, lon, voice_to_text)
+
+
+
+  
 def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     """
     1. Cleans Data
@@ -86,7 +103,56 @@ def clean_route_data(lat, lon, bus_route):
 
     alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
     special_cases = ['link', 'sounder south','amtrak','sounder north','tlink','swift blue','swift green','duvall monroe shuttle','trailhead direct mt. si','trailhead direct mailbox peak','trailhead direct cougar mt.','trailhead direct issaquah alps']
+    number_words = {
+        'o': '0',
+        'oh': '0',
+        'zero': '0',
+        'one': '1',
+        'two': '2',
+        'three': '3',
+        'four': '4',
+        'five': '5',
+        'six': '6',
+        'seven': '7',
+        'eight': '8',
+        'nine': '9',
+        'ten': '10',
+        'eleven': '11',
+        'twelve': '12',
+        'thirteen': '13',
+        'fourteen': '14',
+        'fifteen': '15',
+        'sixteen': '16',
+        'seventeen': '17',
+        'eighteen': '18',
+        'nineteen': '19',
+        'twenty': '20',
+        'thirty': '30',
+        'forty': '40',
+        'fifty': '50',
+        'sixty': '60',
+        'seventy': '70',
+        'eighty': '80',
+        'ninety': '90',
+        'hundred': '0',
+    }
+    'When does the c line arrive'
+    'when does sea line arrive'
+    'when does see line arrive'
+    'when does bus twenty get to fourth and pike'
+    'how long until route 512'
+    'how long until line d gets here'
+    'I really love long walks on the beach d line when the sun is shining'
+    'The Patriots are a terrible organization and we should revoke all six of their championships'
+    'when does one o one get here'
+    'when does one oh one get here'
+    'when does one hundred and one get here'
+    'how long until the five twelve arrives' #'512'
 
+
+
+
+        
     # Check for non-integer route numbers. Format them to be "<capitol letter> -Line"
     if bus_route[0] in alphabet and bus_route not in special_cases:
         temp = bus_route[0].upper()
@@ -131,14 +197,13 @@ def find_closest_stops(user_lat, user_lon, bus_id):
             closest_stop_lon = stop['lon']
 
         if difference < closest:
-            if stop['direction'] != closest_direction: # find different direction
-                #change next closest
-                next_closest = closest
-                name_of_next_closest = name_of_closest
-                next_closest_direction = closest_direction
-                next_closest_stop_id = closest_stop_id
-                next_closest_stop_lat = closest_stop_lat
-                next_closest_stop_lon = closest_stop_lon
+            #change next closest
+            next_closest = closest
+            name_of_next_closest = name_of_closest
+            next_closest_direction = closest_direction
+            next_closest_stop_id = closest_stop_id
+            next_closest_stop_lat = closest_stop_lat
+            next_closest_stop_lon = next_closest_stop_lat
 
             #updating closest
             closest = difference
@@ -185,4 +250,59 @@ def find_estimated_arrival(stop_id, bus_id):
 
     return None
 
+if __name__ == "__main__":
+    bus_route = "when does the five twelve arrive"
+    number_words = {
+    'o': '0',
+    'oh': '0',
+    'zero': '0',
+    'one': '1',
+    'two': '2',
+    'three': '3',
+    'four': '4',
+    'five': '5',
+    'six': '6',
+    'seven': '7',
+    'eight': '8',
+    'nine': '9',
+    'ten': '10',
+    'eleven': '11',
+    'twelve': '12',
+    'thirteen': '13',
+    'fourteen': '14',
+    'fifteen': '15',
+    'sixteen': '16',
+    'seventeen': '17',
+    'eighteen': '18',
+    'nineteen': '19',
+    'twenty': '20',
+    'thirty': '30',
+    'forty': '40',
+    'fifty': '50',
+    'sixty': '60',
+    'seventy': '70',
+    'eighty': '80',
+    'ninety': '90',
+    'hundred': '0'
+}
 
+    for i, word in enumerate(bus_route.split()):
+        if word in number_words:
+            temp = word
+            if word[i + 1] in number_words:
+                temp += word[i +1]
+            print(temp)
+    print('word not found')
+
+
+def voice_to_text(path):
+     sound = path
+    r = sr.Recognizer()
+    with sr.AudioFile(sound) as source:
+        r.adjust_for_ambient_noise(source)
+        print("Converting Audio To Text ..... ")
+        audio = r.listen(source)
+    try:
+        print("Converted Audio Is : \n" + r.recognize_google(audio))
+    except Exception as e:
+        print("Error {} : ".format(e) )
