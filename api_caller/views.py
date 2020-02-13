@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from rest_framework.views import APIView
-# import speech_recognition as sr
+import speech_recognition as sr
 import requests
 import time
 import json
@@ -12,17 +12,17 @@ with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
     # print(route_data)
 
-# def voice_to_text(path):
-#     sound = path
-#     r = sr.Recognizer()
-#     with sr.AudioFile(sound) as source:
-#         r.adjust_for_ambient_noise(source)
-#         print("Converting Audio To Text ..... ")
-#         audio = r.listen(source)
-#     try:
-#         print("Converted Audio Is : \n" + r.recognize_google(audio))
-#     except Exception as e:
-#         print("Error {} : ".format(e) )
+def voice_to_text(path):
+    sound = path
+    r = sr.Recognizer()
+    with sr.AudioFile(sound) as source:
+        r.adjust_for_ambient_noise(source)
+        print("Converting Audio To Text ..... ")
+        audio = r.listen(source)
+    try:
+        print("Converted Audio Is : \n" + r.recognize_google(audio))
+    except Exception as e:
+        print("Error {} : ".format(e) )
 
 
 
