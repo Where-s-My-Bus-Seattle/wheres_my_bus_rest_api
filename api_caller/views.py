@@ -4,6 +4,7 @@ import requests
 import time
 import json
 
+
 with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
 
@@ -79,17 +80,68 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
 
     return HttpResponse(f'ERROR! We\'re sorry, route {bus_route} is not available at this time.')
 
-
-
 def clean_route_data(lat, lon, bus_route):
+    user_lat = float(lat) or 47.9365944 
+    user_lon = float(lon) or -122.219628
+
+    result=''
+    query = bus_route.lower().split()
+    alphabet = set(['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'])
+    num_chars = set('1234567890')
+    special_cases = {
+    'link': ['link'], 
+    'sounder':['swift south', 'swift north'],
+    'amtrak':['amtrak'],
+    'tlink': ['tlink'],
+    'swift':['swift blue', 'swift green'],
+    'duvall':['duvall monroe shuttle'],
+    'trailhead': ['trailhead direct mt. si','trailhead direct mailbox peak','trailhead direct cougar mt.','trailhead direct issaquah alps']
+    }
+
+    for word in range(len(query)):
+        if query[word] in key_words:
+            print('found key word: ', query[word])
+            if query[word -1]: #if theres a word in front of the key word
+                if query[word-1] in alphabet:
+                    result += query[word-1]
+                    result +='-Line'
+                if any(char in query[word-1] for char in num_chars):
+                    result += query[word-1]
+
+            if query[word +1]: #if theres a word after the key word
+                if query[word+1] in alphabet:
+                    result += query[word +1]
+                if any(char in query[word+1] for char in num_chars):   
+                    result += query[word+1]
+        else:
+            if any(char in query[word] for char in num_chars):
+                result += query[word]
+                break #for now, we're just assuming the first number is the bus route so don't remove this break
+        
+        if query[word] in special_cases:
+            if len(special_cases[query[word]]) == 1:
+                result += special_cases[query[word]][0]
+            else:
+                if query[word +1] in special_cases[query[word]][0]:
+                    result += special_cases[query[word]][0]
+                if query[word +1] in special_cases[query[word]][1]:
+                    result += special_cases[query[word]][0]
+    
+    print(result)
+    bus_route = result
+    return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route}
+
+def clean_route_data_deprecated(lat, lon, bus_route):
     # Clean input
     bus_route = bus_route.lower()
     user_lat = float(lat) or 47.9365944 
     user_lon = float(lon) or -122.219628
 
-    alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+    alphabet = set(['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'])
     special_cases = ['link', 'sounder south','amtrak','sounder north','tlink','swift blue','swift green','duvall monroe shuttle','trailhead direct mt. si','trailhead direct mailbox peak','trailhead direct cougar mt.','trailhead direct issaquah alps']
-
+    key_words = set(['line', 'route', 'bus'])
+    
+    
     # Check for non-integer route numbers. Format them to be "<capitol letter> -Line"
     if bus_route[0] in alphabet and bus_route not in special_cases:
         temp = bus_route[0].upper()
@@ -191,3 +243,5 @@ def find_estimated_arrival(stop_id, bus_id):
     return None
 
 
+if __name__ == "__main__":
+    pass
