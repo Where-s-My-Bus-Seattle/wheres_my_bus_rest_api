@@ -6,10 +6,12 @@ import requests
 import time
 import json
 
+
 with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
     print(route_data)
 
+<<<<<<< HEAD
 def voice_to_text(path):
      sound = path
     r = sr.Recognizer()
@@ -42,6 +44,13 @@ class show_me_the_request(APIView):
 #     print('request: ', request)
 #     print('request.body: ', request.body)
     
+=======
+
+def show_me_the_request(request, lat, lon):
+    print('request: ', request)
+    print('request.body: ', request.body)
+
+>>>>>>> ef36aa03674e1739077b270847154c2b86682d9c
 
 def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     """
@@ -110,17 +119,94 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
 
     return HttpResponse(f'ERROR! We\'re sorry, route {bus_route} is not available at this time.')
 
-
-
 def clean_route_data(lat, lon, bus_route):
+    query = bus_route.lower().split()
+    user_lat = float(lat) or 47.9365944 
+    user_lon = float(lon) or -122.219628
+    result=''
+
+    alphabet = set(['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'])
+    num_chars = set('1234567890')
+    key_words = set(['line', 'route', 'bus'])
+
+    special_cases = {
+    'link': ['link'], 
+    'sounder':['sounder south', 'sounder north'],
+    'amtrak':['amtrak'],
+    'tlink': ['tlink'],
+    'swift':['swift blue', 'swift green'],
+    'duvall':['duvall monroe shuttle'],
+    'trailhead': ['trailhead direct mt. si','trailhead direct mailbox peak','trailhead direct cougar mt.','trailhead direct issaquah alps']
+    }
+
+    for word in range(len(query)):
+
+        if query[word] in alphabet:
+            result += query[word].upper()
+            result +='-Line'
+            break
+
+        # is a number or leter
+        if query[word] in key_words:
+            print('found key word: ', query[word])
+            #if the word is a key word, grab the first word before the key if it
+            if query[word -1]: 
+                if query[word-1] in alphabet:
+                    result += query[word-1].upper()
+                    result +='-Line'
+                    break
+                if any(char in query[word-1] for char in num_chars):
+                    result += query[word-1]
+                    break
+
+            # grabs the first word after the key if it is a letter or number           
+            if query[word +1]:
+                if query[word+1] in alphabet:
+                    result += query[word +1].upper()
+                    result +='-Line'
+                    break
+                if any(char in query[word+1] for char in num_chars):   
+                    result += query[word+1]
+                    break
+        else:
+            # if no key words are found, grab the first number found
+            if any(char in query[word] for char in num_chars):
+                result += query[word]
+                break
+        
+        # checks if word is a key in special case, and returns a value inside
+        # that key's list
+        if query[word] in special_cases:
+            if len(special_cases[query[word]]) == 1:
+                result += special_cases[query[word]][0]  
+                break
+            else:
+                if query[word +1] in special_cases[query[word]][0]:
+                    result += special_cases[query[word]][0]
+                    break
+                if query[word +1] in special_cases[query[word]][1]:
+                    result += special_cases[query[word]][1]
+                    break
+    
+    bus_route = result
+    print(bus_route)
+    # Check our dictionary of Puget Sound Area Routes
+    if bus_route not in route_data:
+        return None
+    # TODO: elif bus_route+'o' in route_data:
+        # handle 20 cases where there are repeated routes (Northern)
+    return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route}
+
+def clean_route_data_deprecated(lat, lon, bus_route):
     # Clean input
     bus_route = bus_route.lower()
     user_lat = float(lat) or 47.9365944 
     user_lon = float(lon) or -122.219628
 
-    alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+    alphabet = set(['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'])
     special_cases = ['link', 'sounder south','amtrak','sounder north','tlink','swift blue','swift green','duvall monroe shuttle','trailhead direct mt. si','trailhead direct mailbox peak','trailhead direct cougar mt.','trailhead direct issaquah alps']
-
+    
+    
     # Check for non-integer route numbers. Format them to be "<capitol letter> -Line"
     if bus_route[0] in alphabet and bus_route not in special_cases:
         temp = bus_route[0].upper()
