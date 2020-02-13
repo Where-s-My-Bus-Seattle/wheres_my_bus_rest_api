@@ -1,7 +1,7 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Response
 from rest_framework.views import APIView
-import speech_recognition as sr
+# import speech_recognition as sr
 import requests
 import time
 import json
@@ -9,19 +9,19 @@ import json
 
 with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
-    print(route_data)
+    # print(route_data)
 
-def voice_to_text(path):
-     sound = path
-    r = sr.Recognizer()
-    with sr.AudioFile(sound) as source:
-        r.adjust_for_ambient_noise(source)
-        print("Converting Audio To Text ..... ")
-        audio = r.listen(source)
-    try:
-        print("Converted Audio Is : \n" + r.recognize_google(audio))
-    except Exception as e:
-        print("Error {} : ".format(e) )
+# def voice_to_text(path):
+#     sound = path
+#     r = sr.Recognizer()
+#     with sr.AudioFile(sound) as source:
+#         r.adjust_for_ambient_noise(source)
+#         print("Converting Audio To Text ..... ")
+#         audio = r.listen(source)
+#     try:
+#         print("Converted Audio Is : \n" + r.recognize_google(audio))
+#     except Exception as e:
+#         print("Error {} : ".format(e) )
 
 class show_me_the_request(APIView):
 
@@ -36,7 +36,12 @@ class show_me_the_request(APIView):
         # 3. Finds the soonest arrival time of the requested bus at both stops
         # 4. Returns (for each direction): [bus_id, direction, stop_name, arrival time (in minutes)]
 
-        return Response(200)
+        return HttpResponse()
+
+# def show_me_the_request(request, lat, lon):
+
+#     print('request: ', request)
+#     print('request.body: ', request.body)
     
 
 def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
@@ -135,7 +140,7 @@ def clean_route_data(lat, lon, bus_route):
 
         # is a number or leter
         if query[word] in key_words:
-            print('found key word: ', query[word])
+            # print('found key word: ', query[word])
             #if the word is a key word, grab the first word before the key if it
             if query[word -1]: 
                 if query[word-1] in alphabet:
@@ -176,7 +181,7 @@ def clean_route_data(lat, lon, bus_route):
                     break
     
     bus_route = result
-    print(bus_route)
+    # print(bus_route)
     # Check our dictionary of Puget Sound Area Routes
     if bus_route not in route_data:
         return None
