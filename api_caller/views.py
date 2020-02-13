@@ -11,9 +11,8 @@ with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
     print(route_data)
 
-<<<<<<< HEAD
 def voice_to_text(path):
-     sound = path
+    sound = path
     r = sr.Recognizer()
     with sr.AudioFile(sound) as source:
         r.adjust_for_ambient_noise(source)
@@ -44,13 +43,6 @@ class show_me_the_request(APIView):
 #     print('request: ', request)
 #     print('request.body: ', request.body)
     
-=======
-
-def show_me_the_request(request, lat, lon):
-    print('request: ', request)
-    print('request.body: ', request.body)
-
->>>>>>> ef36aa03674e1739077b270847154c2b86682d9c
 
 def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     """
