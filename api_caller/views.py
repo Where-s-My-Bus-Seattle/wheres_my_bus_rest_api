@@ -5,8 +5,9 @@ import time
 import json
 
 
-with open('../bus_routes/finalRoutesAndIds.json') as all_routes:
+with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
+
 
 def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     """
@@ -117,7 +118,6 @@ def clean_route_data(lat, lon, bus_route):
 
             # grabs the first word after the key if it is a letter or number           
             if query[word +1]:
-                print('yes')
                 if query[word+1] in alphabet:
                     result += query[word +1].upper()
                     result +='-Line'
@@ -261,6 +261,5 @@ def find_estimated_arrival(stop_id, bus_id):
             return ((arrival_time - current_time)//60000) # time in minutes (rounded)
 
     return None
-
 
 
