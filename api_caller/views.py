@@ -11,7 +11,6 @@ with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
     print(route_data)
 
-<<<<<<< HEAD
 def voice_to_text(path):
      sound = path
     r = sr.Recognizer()
@@ -38,19 +37,7 @@ class show_me_the_request(APIView):
         # 4. Returns (for each direction): [bus_id, direction, stop_name, arrival time (in minutes)]
 
         return Response()
-
-# def show_me_the_request(request, lat, lon):
-
-#     print('request: ', request)
-#     print('request.body: ', request.body)
     
-=======
-
-def show_me_the_request(request, lat, lon):
-    print('request: ', request)
-    print('request.body: ', request.body)
-
->>>>>>> ef36aa03674e1739077b270847154c2b86682d9c
 
 def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     """
