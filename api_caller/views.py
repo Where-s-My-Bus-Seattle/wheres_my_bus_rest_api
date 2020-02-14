@@ -39,11 +39,6 @@ class show_me_the_request(APIView):
         # 4. Returns (for each direction): [bus_id, direction, stop_name, arrival time (in minutes)]
 
         # return HttpResponse()
-
-# def show_me_the_request(request, lat, lon):
-
-#     print('request: ', request)
-#     print('request.body: ', request.body)
     
 
 def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
@@ -92,7 +87,7 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
    # print('NC: ', name_of_closest, 'cArrival: ', closest_arrival, 'NNC: ', name_of_next_closest, 'nCArrival', next_closest_arrival)
     
     if closest_arrival or next_closest_arrival:
-        # return HttpResponse(f'<h1>Success!\n User_lat: {user_lat}\n User_lon: {user_lon}\n name_of_closest: {name_of_closest}\n direction: {closest_direction}\n closest_stop_id: {closest_stop_id} closest_minutes: {closest_arrival} closest_lat: {closest_lat} closest_lon: {closest_lon} name_of_next_closest: {name_of_next_closest}\n direction: {next_closest_direction} next_closest_stop_id: {next_closest_stop_id} next_closest_minutes: {next_closest_arrival} next_closest_lat: {next_closest_lat} next_closest_lon {next_closest_lon}</h1>')
+        
         return JsonResponse({
             'route': bus_route,
             'closest_stop': { 
