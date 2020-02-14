@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from rest_framework.views import APIView
-import speechRecognition as sr
+#import speech_recognition as sr
 import requests
 import time
 import json
@@ -10,19 +10,19 @@ import json
 
 with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
-    # print(route_data)
+    print(route_data)
 
-def voice_to_text(path):
-    sound = path
-    r = sr.Recognizer()
-    with sr.AudioFile(sound) as source:
-        r.adjust_for_ambient_noise(source)
-        print("Converting Audio To Text ..... ")
-        audio = r.listen(source)
-    try:
-        print("Converted Audio Is : \n" + r.recognize_google(audio))
-    except Exception as e:
-        print("Error {} : ".format(e) )
+#def voice_to_text(path):
+ #   sound = path
+  #  r = sr.Recognizer()
+   # with sr.AudioFile(sound) as source:
+    #    r.adjust_for_ambient_noise(source)
+     #   print("Converting Audio To Text ..... ")
+      #  audio = r.listen(source)
+  #  try:
+   #     print("Converted Audio Is : \n" + r.recognize_google(audio))
+    #except Exception as e:
+     #   print("Error {} : ".format(e) )
 
 
 
@@ -32,7 +32,6 @@ class show_me_the_request(APIView):
         theFile = request.body
         # 1st .wav to text
         theBusRoute = '8' #the ana-leo function (.wav to text)
-
         return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute)
         
         #2. Gets the two closest stops (both directions)
@@ -90,7 +89,7 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
 
     # 4
     # Check that a valid time was returned from find_estimated_arrival
-    print('NC: ', name_of_closest, 'cArrival: ', closest_arrival, 'NNC: ', name_of_next_closest, 'nCArrival', next_closest_arrival)
+   # print('NC: ', name_of_closest, 'cArrival: ', closest_arrival, 'NNC: ', name_of_next_closest, 'nCArrival', next_closest_arrival)
     
     if closest_arrival or next_closest_arrival:
         # return HttpResponse(f'<h1>Success!\n User_lat: {user_lat}\n User_lon: {user_lon}\n name_of_closest: {name_of_closest}\n direction: {closest_direction}\n closest_stop_id: {closest_stop_id} closest_minutes: {closest_arrival} closest_lat: {closest_lat} closest_lon: {closest_lon} name_of_next_closest: {name_of_next_closest}\n direction: {next_closest_direction} next_closest_stop_id: {next_closest_stop_id} next_closest_minutes: {next_closest_arrival} next_closest_lat: {next_closest_lat} next_closest_lon {next_closest_lon}</h1>')
@@ -186,7 +185,7 @@ def clean_route_data(lat, lon, bus_route):
                     break
     
     bus_route = result
-    print(bus_route)
+   # print(bus_route)
     # Check our dictionary of Puget Sound Area Routes
     if bus_route not in route_data:
         return None
