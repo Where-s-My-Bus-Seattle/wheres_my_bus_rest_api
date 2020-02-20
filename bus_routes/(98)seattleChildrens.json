@@ -1,0 +1,36 @@
+{
+    "code":200,
+    "currentTime":1582166405731,
+    "data":{
+        "limitExceeded":false,
+        "list":[
+            {"agencyId":"98","color":"","description":"","id":"98_Pink-48","longName":"Pink","shortName":"Pink","textColor":"","type":3,"url":""},
+            {"agencyId":"98","color":"","description":"","id":"98_Gold-48","longName":"Gold","shortName":"Gold","textColor":"","type":3,"url":""},
+            {"agencyId":"98","color":"","description":"","id":"98_Blue-48","longName":"Blue","shortName":"Blue","textColor":"","type":3,"url":""},
+            {"agencyId":"98","color":"","description":"","id":"98_Ylw-48","longName":"Yellow","shortName":"Ylw","textColor":"","type":3,"url":""},
+            {"agencyId":"98","color":"","description":"","id":"98_Purp-48","longName":"Purple","shortName":"Pur","textColor":"","type":3,"url":""}
+        ],
+        "references":{
+            "agencies":[
+                {
+                    "disclaimer":"",
+                    "email":"",
+                    "fareUrl":"",
+                    "id":"98",
+                    "lang":"en",
+                    "name":"Seattle Children's Hospital",
+                    "phone":"",
+                    "privateService":false,
+                    "timezone":"America/Los_Angeles",
+                    "url":"https://www.luum.com/commute/content/shuttles"
+                }
+            ],
+            "routes":[],
+            "situations":[],
+            "stops":[],
+            "trips":[]
+        }
+    },
+    "text":"OK",
+    "version":2
+}

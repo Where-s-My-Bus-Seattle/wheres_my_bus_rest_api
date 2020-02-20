@@ -1,0 +1,52 @@
+{
+    "code":200,
+    "currentTime":1582166065114,
+    "data":{
+        "limitExceeded":false,
+        "list":[
+            {"agencyId":"19","color":"","description":"","id":"19_10","longName":"Capital Medical Center","shortName":"47","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_11","longName":"Capital Mall/TESC","shortName":"48","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_12","longName":"St Peter Hospital","shortName":"60","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_13","longName":"Martin Way/NE Lacey","shortName":"62A","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_14","longName":"Martin Way/The Meadows","shortName":"62B","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_15","longName":"College St/Amtrak","shortName":"64","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_16","longName":"Ruddell Road","shortName":"66","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_17","longName":"Tri Lake","shortName":"67","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_18","longName":"Yelm Highway/Capital Mall","shortName":"68","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_20","longName":"Boulevard Rd./Yelm","shortName":"94","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_23","longName":"Olympia/Tacoma Mall","shortName":"620","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_28","longName":"Family Court","shortName":"42","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_35","longName":"Dsh Shuttle","shortName":"DASH","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_36","longName":"Nightline","shortName":"NITE","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_38","longName":"Olympia/Tacoma Express","shortName":"612","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_39","longName":"The One","shortName":"ONE","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_1","longName":"West Tumwater","shortName":"12","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_2","longName":"East Tumwater","shortName":"13","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_5","longName":"N Bethel/N Central","shortName":"21","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_7","longName":"The Evergreen State College","shortName":"41","textColor":"","type":3,"url":""},
+            {"agencyId":"19","color":"","description":"","id":"19_9","longName":"Conger/Capital Mall","shortName":"45","textColor":"","type":3,"url":""}
+        ],
+        "references":{
+            "agencies":[
+                {
+                    "disclaimer":"",
+                    "email":"",
+                    "fareUrl":"",
+                    "id":"19",
+                    "lang":"en",
+                    "name":"Intercity Transit",
+                    "phone":"(360) 786-1881",
+                    "privateService":false,
+                    "timezone":"America/Los_Angeles",
+                    "url":"http://www.Intercitytransit.com"
+                }
+            ],
+            "routes":[],
+            "situations":[],
+            "stops":[],
+            "trips":[]
+        }
+    },
+    "text":"OK",
+    "version":2
+}

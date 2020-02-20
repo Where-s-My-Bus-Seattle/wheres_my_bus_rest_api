@@ -1,0 +1,33 @@
+{
+    "code":200,
+    "currentTime":1582165910361,
+    "data":{
+        "limitExceeded":false,
+        "list":[
+            {"agencyId":"KMD","color":"","description":"Water Taxi: Vashon Island - Downtown Seattle","id":"KMD_100337","longName":"","shortName":"975","textColor":"","type":4,"url":"http://www.kingcounty.gov/transportation/kcdot/WaterTaxi.aspx"},
+            {"agencyId":"KMD","color":"","description":"Water Taxi: West Seattle - Downtown Seattle","id":"KMD_100336","longName":"","shortName":"973","textColor":"","type":4,"url":"http://www.kingcounty.gov/transportation/kcdot/WaterTaxi.aspx"}
+        ],
+        "references":{
+            "agencies":[
+                {
+                    "disclaimer":"",
+                    "email":"",
+                    "fareUrl":"http://www.kingcounty.gov/transportation/kcdot/Marine.aspx/",
+                    "id":"KMD",
+                    "lang":"EN",
+                    "name":"Kingcounty Marine Divison",
+                    "phone":"206-684-1515",
+                    "privateService":false,
+                    "timezone":"America/Los_Angeles",
+                    "url":"http://www.kingcounty.gov/transportation/kcdot/Marine.aspx"
+                }
+            ],
+            "routes":[],
+            "situations":[],
+            "stops":[],
+            "trips":[]
+        }
+    },
+    "text":"OK",
+    "version":2
+}
