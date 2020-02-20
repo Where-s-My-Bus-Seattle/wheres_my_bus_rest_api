@@ -13,7 +13,7 @@ with open('bus_routes/seattleMonorail.json') as sea_mono:
 with open('bus_routes/seattleStreetCar.json') as street_car:
     sc_data = json.load(street_car)
 
-with open('bus_routes/agencies.json') as ag_obj:
+with open('bus_routes/rawAgencies.json') as ag_obj:
     agencies = json.load(ag_obj)
 
 def hash_routes():
@@ -56,18 +56,18 @@ def hash_agency():
             agency_number = agency['id']
             agency_name = agency['name']
 
-            agency_dict[agency_number] = {'name': agency_name}
+            agency_dict[agency_number] = {"name": agency_name}
         return agency_dict
 
     def combine_agency_coordinates(dictionary, lst):
         agency_dict = dictionary
         for agency in lst:
-            agency_number = agency['id']
+            agency_number = agency['agencyId']
             agency_lat = agency['lat']
             agency_lon = agency['lon']
 
-            agency_dict[agency_number]['lat'] = agency_lat
-            agency_dict[agency_number]['lon'] = agency_lon
+            agency_dict[agency_number]["lat"] = agency_lat
+            agency_dict[agency_number]["lon"] = agency_lon
         return agency_dict
 
     names_for_ids = combine_agency_name_number({},agency_ref)
