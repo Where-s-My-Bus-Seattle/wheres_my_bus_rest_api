@@ -1,0 +1,63 @@
+{
+    "code":200,
+    "currentTime":1582165563608,
+    "data":{
+        "limitExceeded":false,
+        "list":[
+            {"agencyId":"3","color":"","description":"","id":"3_1","longName":"6th Ave / Pacific Ave","shortName":"1","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_2","longName":"Bridgeport / S 19th St","shortName":"2","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_3","longName":"South Tacoma Way","shortName":"3","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_4","longName":"S 112th St","shortName":"4","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_500","longName":"Federal Way","shortName":"500","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_501","longName":"Milton Federal way","shortName":"501","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_400","longName":"Puyallup/DowntownTacoma","shortName":"400","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_402","longName":"Meridian/Federal Way","shortName":"402","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_409","longName":"Puyallup/72nd","shortName":"409","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_425","longName":"Puyallup Connector","shortName":"425","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_202","longName":"72nd Street","shortName":"202","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_206","longName":"Pacific Hwy/Tillicum/Madigan","shortName":"206","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_212","longName":"Steilacoom","shortName":"212","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_214","longName":"Washington","shortName":"214","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_100","longName":"Purdy Gig Harbor TCC","shortName":"100","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_102","longName":"Purdy Gig Harbor Tacoma Expre","shortName":"102","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_10","longName":"Pearl St","shortName":"10","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_11","longName":"Pt. Defiance","shortName":"11","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_13","longName":"N 30th St","shortName":"13","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_16","longName":"N 21st /North End","shortName":"16","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_28","longName":"S 12TH ST","shortName":"28","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_497","longName":"Lakeland Hill connector","shortName":"497","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_41","longName":"56th St/Salishan","shortName":"41","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_42","longName":"McKinley","shortName":"42","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_45","longName":"Yakima","shortName":"45","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_48","longName":"Sheridan/M st","shortName":"48","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_52","longName":"TCC Tac Mall","shortName":"52","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_53","longName":"University Place","shortName":"53","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_54","longName":"S 38th St/Portland","shortName":"54","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_55","longName":"Parkland Tac Mall","shortName":"55","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_57","longName":"Tacoma Mall","shortName":"57","textColor":"","type":3,"url":""},
+            {"agencyId":"3","color":"","description":"","id":"3_63","longName":"NE Tacoma","shortName":"63","textColor":"","type":3,"url":""}
+        ],
+        "references":{
+            "agencies":[
+                {
+                    "disclaimer":"",
+                    "email":"",
+                    "fareUrl":"",
+                    "id":"3",
+                    "lang":"EN",
+                    "name":"Pierce Transit",
+                    "phone":"(253)581-8000",
+                    "privateService":false,
+                    "timezone":"America/Los_Angeles",
+                    "url":"http://www.piercetransit.org"
+                }
+            ],
+            "routes":[],
+            "situations":[],
+            "stops":[],
+            "trips":[]
+        }
+    },
+    "text":"OK",
+    "version":2
+}

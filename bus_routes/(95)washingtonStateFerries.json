@@ -1,0 +1,69 @@
+{
+    "code":200,
+    "currentTime":1582166256715,
+    "data":{
+        "limitExceeded":false,
+        "list":[
+            {"agencyId":"95","color":"","description":"","id":"95_2116","longName":"Tahlequah - Point Defiance","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_2022","longName":"Southworth - Vashon Island","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_514","longName":"Clinton - Mukilteo","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_209","longName":"Southworth - Fauntleroy","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_101","longName":"Friday Harbor - Anacortes","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_229","longName":"Vashon Island - Fauntleroy","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_110","longName":"Anacortes - Friday Harbor","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_113","longName":"Anacortes - Lopez Island","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_115","longName":"Anacortes - Orcas Island","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_118","longName":"Anacortes - Shaw Island","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_128","longName":"Kingston - Edmonds","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_131","longName":"Lopez Island - Anacortes","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_37","longName":"Bainbridge Island - Seattle","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_1810","longName":"Shaw Island - Friday Harbor","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_145","longName":"Mukilteo - Clinton","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_47","longName":"Bremerton - Seattle","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_151","longName":"Orcas Island - Anacortes","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_1815","longName":"Shaw Island - Orcas Island","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_1813","longName":"Shaw Island - Lopez Island","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_1711","longName":"Port Townsend - Coupeville","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_73","longName":"Seattle - Bainbridge Island","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_74","longName":"Seattle - Bremerton","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_181","longName":"Shaw Island - Anacortes","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_1621","longName":"Point Defiance - Tahlequah","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_1513","longName":"Orcas Island - Lopez Island","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_1510","longName":"Orcas Island - Friday Harbor","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_1518","longName":"Orcas Island - Shaw Island","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_1315","longName":"Lopez Island - Orcas Island","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_1310","longName":"Lopez Island - Friday Harbor","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_1318","longName":"Lopez Island - Shaw Island","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_1117","longName":"Coupeville  - Port Townsend","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_920","longName":"Fauntleroy - Southworth","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_922","longName":"Fauntleroy - Vashon Island","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_812","longName":"Edmonds - Kingston","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_2220","longName":"Vashon Island - Southworth","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_1018","longName":"Friday Harbor - Shaw Island","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_1015","longName":"Friday Harbor - Orcas Island","shortName":"","textColor":"","type":4,"url":""},
+            {"agencyId":"95","color":"","description":"","id":"95_1013","longName":"Friday Harbor - Lopez Island","shortName":"","textColor":"","type":4,"url":""}
+        ],
+        "references":{
+            "agencies":[
+                {
+                    "disclaimer":"",
+                    "email":"",
+                    "fareUrl":"",
+                    "id":"95",
+                    "lang":"en",
+                    "name":"Washington State Ferries",
+                    "phone":"",
+                    "privateService":false,
+                    "timezone":"America/Los_Angeles",
+                    "url":"https://www.wsdot.wa.gov/ferries/"
+                }
+            ],
+            "routes":[],
+            "situations":[],
+            "stops":[],
+            "trips":[]
+        }
+    },
+    "text":"OK",
+    "version":2
+}

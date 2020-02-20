@@ -1,0 +1,13 @@
+{
+    "KMD": {"lat": 47.556082, "lon": -122.401825, "name": 'Kingcounty Marine Divison'},
+    "1": {"lat": 47.559841000000006, "lon": -122.09015249999999, "name": 'Metro Transit'},
+    "3": {"lat": 47.2308535, "lon": -122.418351, "name": 'Pierce Transit'},
+    "19": {"lat": 47.086729000000005, "lon": -122.7009125, "name": 'Intercity Transit'},
+    "23": {"lat": 47.613395499999996, "lon": -122.3263055, "name": 'Seattle Monorail'},
+    "29": {"lat": 47.938764500000005, "lon": -121.99284, "name": 'Community Transit'},
+    "40": {"lat": 47.53463, "lon": -122.3294665, "name": 'Sound Transit'},
+    "95": {"lat": 47.9517545, "lon": -122.659497, "name": 'Washington State Ferries'},
+    "96": {"lat": 47.616611000000006, "lon": -122.34336049999999, "name": 'Seattle Center Monorail'},
+    "97": {"lat": 47.9488655, "lon": -122.2443695, "name": 'Everett Transit'},
+    "98": {"lat": 47.6644065, "lon": -122.287135, "name": "Seattle Children's Hospital"}
+}
