@@ -45,13 +45,15 @@ def hash_routes():
         for route in lst:
             route_name = route['shortName']
             route_id = route['id']
+            if route["agencyId"] == "95":
+                route_name = route['longName']
 
             if route_name not in bus_dict:
                 bus_dict[route_name] = route_id
             else:
                 route_name += letter
                 bus_dict[route_name] = route_id
-                print('already in there + "', letter, '": ', route_name)
+                print('already in there: ', route_name)
         return bus_dict
 
     kc_added = add_unique_keys({}, kc_list, 'kcm')
