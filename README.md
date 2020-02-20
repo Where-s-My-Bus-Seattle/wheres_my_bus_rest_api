@@ -6,6 +6,10 @@ When you pull down:
 ./manage.py collectstatic
 Add a .env file 
 
+agencies.json - http://developer.onebusaway.org/modules/onebusaway-application-modules/1.1.13/api/where/methods/agencies-with-coverage.html
+
+
+
 Repeated routes:
 already in there + "o":  101o
 already in there + "o":  105o
