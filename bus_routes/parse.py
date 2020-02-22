@@ -57,8 +57,8 @@ def hash_routes():
         return bus_dict
 
     kc_added = add_unique_keys({}, kc_list, 'kcm')
-    ct_added = add_unique_keys(kc_added, ct_list, 'ct')
-    et_added = add_unique_keys(ct_added, et_list, 'et')
+    ct_added = add_unique_keys(kc_added, ct_list, 'N')
+    et_added = add_unique_keys(ct_added, et_list, 'N')
     st_added = add_unique_keys(et_added, st_list, 'st')
     sm_added = add_unique_keys(st_added, sm_list, 'sm')
     sc_added = add_unique_keys(sm_added, sc_list, 'sc')

@@ -117,6 +117,7 @@ def clean_route_data(lat, lon, bus_route):
     result=''
 
     alphabet = set(['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'])
+    repeated_routes = ['101','105','106','107','230','111','113','116','119','240','120','271','70','2','3','4','7','8','12','18','29','1','2','3','4','402','425','202','212','214','102','10','11','13','28','41','45','48','55','57','63','47','48','60','64','67','42','12','13','21','41','45']
     num_chars = set('1234567890')
     key_words = set(['line', 'route', 'bus'])
 
@@ -184,6 +185,8 @@ def clean_route_data(lat, lon, bus_route):
     # Check our dictionary of Puget Sound Area Routes
     if bus_route not in route_data:
         return None
+    elif bus_route in repeated_routes:
+
     # TODO: elif bus_route+'o' in route_data:
         # handle 20 cases where there are repeated routes (Northern)
     return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route}
