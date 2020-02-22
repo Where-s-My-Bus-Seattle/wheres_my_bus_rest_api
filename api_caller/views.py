@@ -10,7 +10,7 @@ import json
 
 with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
-    print(route_data)
+    # print(route_data)
 
 #def voice_to_text(path):
  #   sound = path
@@ -61,6 +61,9 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     
     # 2
     closest_stops = find_closest_stops(user_lat,user_lon,bus_id)
+    print("closest_stops: ", closest_stops)
+
+    # closest_stops:  {'closest_stop_id': '29_2876', 'next_closest_stop_id': 0, 'name_of_closest': 'Aurora Village Transit Center Bay 7', 'name_of_next_closest': 'b', 'closest_direction': 'E', 'next_closest_direction': 's', 'closest_stop_lon': -122.342007, 'closest_stop_lat': 47.77436, 'next_closest_stop_lat': 0, 'next_closest_stop_lon': 0}
     
     name_of_closest = closest_stops['name_of_closest']
     name_of_next_closest = closest_stops['name_of_next_closest']
@@ -80,8 +83,9 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     # 3
     # Sequential API calls - Finding estimated Arrival Time of: the specific_bus at the nearest_stop
     closest_arrival = find_estimated_arrival(closest_stops['closest_stop_id'], bus_id)
+    print("closest_arrival: ", closest_arrival)
     next_closest_arrival = find_estimated_arrival(closest_stops['next_closest_stop_id'], bus_id)
-
+    print("next_closest_arrival: ", next_closest_arrival)
     # 4
     # Check that a valid time was returned from find_estimated_arrival
    # print('NC: ', name_of_closest, 'cArrival: ', closest_arrival, 'NNC: ', name_of_next_closest, 'nCArrival', next_closest_arrival)
@@ -187,11 +191,11 @@ def clean_route_data(lat, lon, bus_route):
         return None
 
     if bus_route in repeated_routes:
-        
+
         if user_lat > 47.7: # going to be community transit or everett transit (N)
             bus_route += 'N'
         elif user_lat > 47.33: # going to be king county metro
-            pass 
+            bus_route = bus_route 
         elif user_lat > 47.08: # going to be pierce transit
             bus_route += 'pt'
         else: # going to be intercity transit
@@ -230,22 +234,19 @@ def find_closest_stops(user_lat, user_lon, bus_id):
     response = requests.get(f'http://api.pugetsound.onebusaway.org/api/where/stops-for-route/{bus_id}.json?key=TEST&version=2')
     bus_data = response.json()
     bus_stops = bus_data['data']['references']['stops']
+    
+    closest, next_closest = abs(user_lat - bus_stops[0]['lat']), abs(user_lat - bus_stops[1]['lat'])
+    closest_stop_id, next_closest_stop_id = bus_stops[0]['id'], bus_stops[1]['id']
+    closest_stop_lat, next_closest_stop_lat = bus_stops[0]['lat'], bus_stops[1]['lat']
+    closest_stop_lon, next_closest_stop_lon = bus_stops[0]['lon'], bus_stops[1]['lon']
+    name_of_closest, name_of_next_closest = bus_stops[0]['name'], bus_stops[1]['name']
+    closest_direction, next_closest_direction = bus_stops[0]['direction'], bus_stops[1]['direction']
 
-    closest, next_closest = None, None
-    closest_stop_id, next_closest_stop_id = 0,0
-    closest_stop_lat, next_closest_stop_lat = 0,0
-    closest_stop_lon, next_closest_stop_lon = 0,0
-    name_of_closest, name_of_next_closest = 'a', 'b'
-    closest_direction, next_closest_direction = 'n', 's'
-
-    for stop in bus_stops:
+    for stop in bus_stops[2:]:
 
         difference_lat = abs(user_lat - stop['lat'])
         difference_lon = abs(user_lon - stop['lon'])
         difference = difference_lat + difference_lon
-
-        if not closest:
-            closest, next_closest = difference, difference
 
         if difference < closest:
 
@@ -257,7 +258,7 @@ def find_closest_stops(user_lat, user_lon, bus_id):
             closest_stop_lat = stop['lat']
             closest_stop_lon = stop['lon']
 
-        if difference < next_closest and difference != closest:
+        if difference < next_closest and difference != closest and stop['direction'] != closest_direction:
             #change next closest
             next_closest = difference
             name_of_next_closest = stop['name']
