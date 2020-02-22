@@ -10,7 +10,7 @@ import json
 
 with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
-    # print(route_data)
+    print(route_data)
 
 #def voice_to_text(path):
  #   sound = path
@@ -200,8 +200,12 @@ def clean_route_data(lat, lon, bus_route):
             bus_route += 'pt'
         else: # going to be intercity transit
             bus_route += 'it'
+    
+    try:
+        return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route}
+    except:
+        return None
 
-    return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route}
 
 def clean_route_data_deprecated(lat, lon, bus_route):
     # Clean input
