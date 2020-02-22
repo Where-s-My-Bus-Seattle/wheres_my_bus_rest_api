@@ -185,10 +185,18 @@ def clean_route_data(lat, lon, bus_route):
     # Check our dictionary of Puget Sound Area Routes
     if bus_route not in route_data:
         return None
-    elif bus_route in repeated_routes:
 
-    # TODO: elif bus_route+'o' in route_data:
-        # handle 20 cases where there are repeated routes (Northern)
+    if bus_route in repeated_routes:
+        
+        if user_lat > 47.7: # going to be community transit or everett transit (N)
+            bus_route += 'N'
+        elif user_lat > 47.33: # going to be king county metro
+            pass 
+        elif user_lat > 47.08: # going to be pierce transit
+            bus_route += 'pt'
+        else: # going to be intercity transit
+            bus_route += 'it'
+
     return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route}
 
 def clean_route_data_deprecated(lat, lon, bus_route):
