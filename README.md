@@ -3,8 +3,9 @@
 When you pull down:
 
 ```
+Add a .env file inside project dir (wheres_my_bus_backend/)
+mkdir static @ root dir
 ./manage.py collectstatic
-Add a .env file
 ```
 
 agencies.json - http://developer.onebusaway.org/modules/onebusaway-application-modules/1.1.13/api/where/methods/agencies-with-coverage.html
