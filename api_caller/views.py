@@ -61,6 +61,9 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     
     # 2
     closest_stops = find_closest_stops(user_lat,user_lon,bus_id)
+    print("closest_stops: ", closest_stops)
+
+    # closest_stops:  {'closest_stop_id': '29_2876', 'next_closest_stop_id': 0, 'name_of_closest': 'Aurora Village Transit Center Bay 7', 'name_of_next_closest': 'b', 'closest_direction': 'E', 'next_closest_direction': 's', 'closest_stop_lon': -122.342007, 'closest_stop_lat': 47.77436, 'next_closest_stop_lat': 0, 'next_closest_stop_lon': 0}
     
     name_of_closest = closest_stops['name_of_closest']
     name_of_next_closest = closest_stops['name_of_next_closest']
@@ -80,8 +83,9 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     # 3
     # Sequential API calls - Finding estimated Arrival Time of: the specific_bus at the nearest_stop
     closest_arrival = find_estimated_arrival(closest_stops['closest_stop_id'], bus_id)
+    print("closest_arrival: ", closest_arrival)
     next_closest_arrival = find_estimated_arrival(closest_stops['next_closest_stop_id'], bus_id)
-
+    print("next_closest_arrival: ", next_closest_arrival)
     # 4
     # Check that a valid time was returned from find_estimated_arrival
    # print('NC: ', name_of_closest, 'cArrival: ', closest_arrival, 'NNC: ', name_of_next_closest, 'nCArrival', next_closest_arrival)
@@ -187,17 +191,21 @@ def clean_route_data(lat, lon, bus_route):
         return None
 
     if bus_route in repeated_routes:
-        
+
         if user_lat > 47.7: # going to be community transit or everett transit (N)
             bus_route += 'N'
         elif user_lat > 47.33: # going to be king county metro
-            pass 
+            bus_route = bus_route 
         elif user_lat > 47.08: # going to be pierce transit
             bus_route += 'pt'
         else: # going to be intercity transit
             bus_route += 'it'
+    
+    try:
+        return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route}
+    except:
+        return None
 
-    return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route}
 
 def clean_route_data_deprecated(lat, lon, bus_route):
     # Clean input
@@ -223,29 +231,113 @@ def clean_route_data_deprecated(lat, lon, bus_route):
 
     return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route}
 
-
-
 def find_closest_stops(user_lat, user_lon, bus_id):
+    response = requests.get(f'http://api.pugetsound.onebusaway.org/api/where/stops-for-route/{bus_id}.json?key=TEST&version=2')
+    bus_data = response.json()
+    bus_stops = bus_data['data']['references']['stops']
+
+# Get every difference and save every index
+    differences, indices, i = [], {}, 0
+
+    for stop in bus_stops:
+        difference_lat = abs(user_lat - stop['lat'])
+        difference_lon = abs(user_lon - stop['lon'])
+        difference = difference_lat + difference_lon
+
+        differences.append(difference)
+        indices[difference] = i
+
+        i += 1
+
+# Sort the differences
+    differences.sort()
+
+# Get the closest stops
+
+    # Closest
+    closest = differences[0]
+    index = indices[closest]
+
+    closest_stop_id = bus_stops[index]['id']
+    closest_stop_lat = bus_stops[index]['lat']
+    closest_stop_lon = bus_stops[index]['lon']
+    closest_direction = bus_stops[index]['direction']
+    name_of_closest = bus_stops[index]['name']
+
+    print('closest: ', closest_direction, closest_stop_id)
+
+    # Find Next Closest in the list. Different Direction.
+    for diff in differences[1:]:
+        index = indices[diff]
+        current_direction = bus_stops[index]['direction']
+
+        if current_direction != closest_direction:
+            # next_closest = diff
+            next_closest_stop_id = bus_stops[index]['id']
+            next_closest_stop_lat = bus_stops[index]['lat']
+            next_closest_stop_lon = bus_stops[index]['lon']
+            name_of_next_closest = bus_stops[index]['name']
+            next_closest_direction = bus_stops[index]['direction']
+            print('not the same direction!!!!!!!!!!!!!!!!!!!!!!!')
+            print('next closest: ', next_closest_direction, next_closest_stop_id)
+            break
+
+# Return closest and next closest as an object.
+    return {
+        'closest_stop_id':closest_stop_id,
+        'next_closest_stop_id':next_closest_stop_id,
+        'name_of_closest':name_of_closest,
+        'name_of_next_closest':name_of_next_closest,
+        'closest_direction':closest_direction,
+        'next_closest_direction':next_closest_direction,
+        'closest_stop_lon':closest_stop_lon,
+        'closest_stop_lat':closest_stop_lat,
+        'next_closest_stop_lat':next_closest_stop_lat,
+        'next_closest_stop_lon':next_closest_stop_lon
+    }
+
+
+def depracated_find_closest_stops(user_lat, user_lon, bus_id):
      
     response = requests.get(f'http://api.pugetsound.onebusaway.org/api/where/stops-for-route/{bus_id}.json?key=TEST&version=2')
     bus_data = response.json()
     bus_stops = bus_data['data']['references']['stops']
 
-    closest, next_closest = None, None
-    closest_stop_id, next_closest_stop_id = 0,0
-    closest_stop_lat, next_closest_stop_lat = 0,0
-    closest_stop_lon, next_closest_stop_lon = 0,0
-    name_of_closest, name_of_next_closest = 'a', 'b'
-    closest_direction, next_closest_direction = 'n', 's'
 
-    for stop in bus_stops:
+#### Setting First Two Stops. The First two in the list, going different directions ########################
+    closest, next_closest = abs(user_lat - bus_stops[0]['lat']), abs(user_lat - bus_stops[0]['lat'])
+    closest_stop_id, next_closest_stop_id = bus_stops[0]['id'], bus_stops[0]['id']
+    closest_stop_lat, next_closest_stop_lat = bus_stops[0]['lat'], bus_stops[0]['lat']
+    closest_stop_lon, next_closest_stop_lon = bus_stops[0]['lon'], bus_stops[0]['lon']
+    name_of_closest, name_of_next_closest = bus_stops[0]['name'], bus_stops[0]['name']
+    closest_direction, next_closest_direction = bus_stops[0]['direction'], bus_stops[0]['direction']
+    index = 0
+
+    while closest_direction == next_closest_direction:
+        print('inWhile; closest_direction: ', closest_direction)
+        for i in range(len(bus_stops)):
+            print('index, direction: ', i, bus_stops[i]['direction'])
+            if bus_stops[i]['direction'] != closest_direction:
+                next_closest = abs(user_lat - bus_stops[i]['lat'])
+                next_closest_stop_id = bus_stops[i]['id']
+                next_closest_stop_lat = bus_stops[i]['lat']
+                next_closest_stop_lon = bus_stops[i]['lon']
+                name_of_next_closest = bus_stops[i]['name']
+                next_closest_direction = bus_stops[i]['direction']
+                index = i
+
+                print('breaking! index, direction: ', index, next_closest_direction)
+                break
+        break
+############################################################################################################
+
+
+#### Updating 'closest' stops after the first two ##########################################################
+    for stop in bus_stops[index:]:
 
         difference_lat = abs(user_lat - stop['lat'])
         difference_lon = abs(user_lon - stop['lon'])
         difference = difference_lat + difference_lon
-
-        if not closest:
-            closest, next_closest = difference, difference
 
         if difference < closest:
 
@@ -265,6 +357,7 @@ def find_closest_stops(user_lat, user_lon, bus_id):
             next_closest_stop_id = stop['id']
             next_closest_stop_lat = stop['lat']
             next_closest_stop_lon = stop['lon']
+############################################################################################################
 
     return {
         'closest_stop_id':closest_stop_id,
@@ -278,7 +371,6 @@ def find_closest_stops(user_lat, user_lon, bus_id):
         'next_closest_stop_lat':next_closest_stop_lat,
         'next_closest_stop_lon':next_closest_stop_lon
     }
-
 
 
 def find_estimated_arrival(stop_id, bus_id):
@@ -299,6 +391,7 @@ def find_estimated_arrival(stop_id, bus_id):
 
         # make sure to only show busses that have NOT arrived yet. (arriving in the future)(Arrivaltime > current_time -- i.e in the future)    
         if arrival_time > current_time:
+            print('SUCCESS=====================', arrival_time)
             return ((arrival_time - current_time)//60000) # time in minutes (rounded)
 
     return None
