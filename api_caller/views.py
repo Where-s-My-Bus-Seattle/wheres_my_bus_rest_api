@@ -31,7 +31,7 @@ class show_me_the_request(APIView):
     def post(self, request, lat, lon, format=None):
         theFile = request.body
         # 1st .wav to text
-        theBusRoute = '8' #the ana-leo function (.wav to text)
+        theBusRoute = '8' # the ana-leo function (.wav to text)
         return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute)
         
         #2. Gets the two closest stops (both directions)
@@ -52,7 +52,8 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     clean_data = clean_route_data(lat,lon,bus_route)
 
     if not clean_data:
-        return HttpResponse(f'ERROR! {bus_route} is not a valid route.')
+        return JsonResponse({'status': 'bad'})
+        # return HttpResponse(f'ERROR! {bus_route} is not a valid route.')
 
     bus_id = clean_data['bus_id']
     bus_route = clean_data['bus_route']
@@ -93,6 +94,7 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     if closest_arrival or next_closest_arrival:
         
         return JsonResponse({
+            'status': 'good',
             'route': bus_route,
             'closest_stop': { 
                 'closest_name': name_of_closest,
@@ -111,8 +113,10 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
                 'next_closest_lon': next_closest_lon,
             }
         })
+    
+    return JsonResponse({'status': 'bad'})
 
-    return HttpResponse(f'ERROR! We\'re sorry, route {bus_route} is not available at this time.')
+    # return HttpResponse(f'ERROR! We\'re sorry, route {bus_route} is not available at this time.')
 
 def clean_route_data(lat, lon, bus_route):
     query = bus_route.lower().split()
