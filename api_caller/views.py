@@ -10,7 +10,7 @@ import json
 
 with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
-    print(route_data)
+    # print(route_data)
 
 #def voice_to_text(path):
  #   sound = path
@@ -62,7 +62,7 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     
     # 2
     closest_stops = find_closest_stops(user_lat,user_lon,bus_id)
-    print("closest_stops: ", closest_stops)
+    # print("closest_stops: ", closest_stops)
 
     # closest_stops:  {'closest_stop_id': '29_2876', 'next_closest_stop_id': 0, 'name_of_closest': 'Aurora Village Transit Center Bay 7', 'name_of_next_closest': 'b', 'closest_direction': 'E', 'next_closest_direction': 's', 'closest_stop_lon': -122.342007, 'closest_stop_lat': 47.77436, 'next_closest_stop_lat': 0, 'next_closest_stop_lon': 0}
     
@@ -84,9 +84,9 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     # 3
     # Sequential API calls - Finding estimated Arrival Time of: the specific_bus at the nearest_stop
     closest_arrival = find_estimated_arrival(closest_stops['closest_stop_id'], bus_id)
-    print("closest_arrival: ", closest_arrival)
+    # print("closest_arrival: ", closest_arrival)
     next_closest_arrival = find_estimated_arrival(closest_stops['next_closest_stop_id'], bus_id)
-    print("next_closest_arrival: ", next_closest_arrival)
+    # print("next_closest_arrival: ", next_closest_arrival)
     # 4
     # Check that a valid time was returned from find_estimated_arrival
    # print('NC: ', name_of_closest, 'cArrival: ', closest_arrival, 'NNC: ', name_of_next_closest, 'nCArrival', next_closest_arrival)
@@ -268,7 +268,7 @@ def find_closest_stops(user_lat, user_lon, bus_id):
     closest_direction = bus_stops[index]['direction']
     name_of_closest = bus_stops[index]['name']
 
-    print('closest: ', closest_direction, closest_stop_id)
+    # print('closest: ', closest_direction, closest_stop_id)
 
     # Find Next Closest in the list. Different Direction.
     for diff in differences[1:]:
@@ -282,8 +282,8 @@ def find_closest_stops(user_lat, user_lon, bus_id):
             next_closest_stop_lon = bus_stops[index]['lon']
             name_of_next_closest = bus_stops[index]['name']
             next_closest_direction = bus_stops[index]['direction']
-            print('not the same direction!!!!!!!!!!!!!!!!!!!!!!!')
-            print('next closest: ', next_closest_direction, next_closest_stop_id)
+            # print('not the same direction!!!!!!!!!!!!!!!!!!!!!!!')
+            # print('next closest: ', next_closest_direction, next_closest_stop_id)
             break
 
 # Return closest and next closest as an object.
@@ -318,9 +318,9 @@ def depracated_find_closest_stops(user_lat, user_lon, bus_id):
     index = 0
 
     while closest_direction == next_closest_direction:
-        print('inWhile; closest_direction: ', closest_direction)
+        # print('inWhile; closest_direction: ', closest_direction)
         for i in range(len(bus_stops)):
-            print('index, direction: ', i, bus_stops[i]['direction'])
+            # print('index, direction: ', i, bus_stops[i]['direction'])
             if bus_stops[i]['direction'] != closest_direction:
                 next_closest = abs(user_lat - bus_stops[i]['lat'])
                 next_closest_stop_id = bus_stops[i]['id']
@@ -330,7 +330,7 @@ def depracated_find_closest_stops(user_lat, user_lon, bus_id):
                 next_closest_direction = bus_stops[i]['direction']
                 index = i
 
-                print('breaking! index, direction: ', index, next_closest_direction)
+                # print('breaking! index, direction: ', index, next_closest_direction)
                 break
         break
 ############################################################################################################
