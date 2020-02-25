@@ -53,30 +53,13 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
 # 2. Find closest stops.
     closest_stops = find_closest_stops(user_lat,user_lon,bus_id)
 
-## TODO: handle if only one stop comes back?? (sounder train? NORTH/SOUTH)
+    ## TODO: handle if only one stop comes back?? (sounder train? NORTH/SOUTH)
     if not closest_stops:
         return JsonResponse({'status': 'bad', 'error': 'no two stops available nearby'})
-    
-    # name_of_closest = closest_stops['name_of_closest']
-    # name_of_next_closest = closest_stops['name_of_next_closest']
-    
-    # closest_stop_id = closest_stops['closest_stop_id']
-    # next_closest_stop_id = closest_stops['next_closest_stop_id']
-    
-    # closest_direction = closest_stops['closest_direction']
-    # next_closest_direction = closest_stops['next_closest_direction']
-
-    # closest_lat = closest_stops['closest_stop_lat']
-    # next_closest_lat = closest_stops['next_closest_stop_lat']
-
-    # closest_lon = closest_stops['closest_stop_lon']
-    # next_closest_lon = closest_stops['next_closest_stop_lon']
-
 
 # 3. Finding arrival times for: the specific_bus at the nearest_stops
     closest_arrival = find_estimated_arrival(closest_stops['closest_stop_id'], bus_id)
     next_closest_arrival = find_estimated_arrival(closest_stops['next_closest_stop_id'], bus_id)
-
 
 # 4. Check that a valid time was returned from find_estimated_arrival    
     if closest_arrival or next_closest_arrival:
@@ -381,7 +364,7 @@ def check_if_repeated_route(route, user_lat):
     [Returns]: updated bus_route[string]
     """
     bus_route = route
-    repeated_routes = {'101':'N','105':'N','106':'N','107':'N','230':'N','111':'N','113':'N','116':'N','119':'N','240':'N','120':'N','271':'N','70':'N','2':'pt','7':'N','8':'N','18':'N','29':'N','1':'pt','3':'pt','4':'pt','402':'pt','425':'pt','202':'pt','212':'pt','214':'pt','102':'pt','10':'pt','11':'pt','13':'','28':'pt','41':'','45':'','55':'pt','57':'pt','63':'pt','47':'it','48':'','60':'it','64':'it','67':'it','42':'it','12':'','21':'it'}
+    repeated_routes = {'101':'','105':'','106':'','107':'','230':'','111':'','113':'','116':'','119':'','240':'','120':'','271':'','70':'','2':'pt','7':'','8':'','18':'','29':'','1':'pt','3':'pt','4':'pt','402':'pt','425':'pt','202':'pt','212':'pt','214':'pt','102':'pt','10':'pt','11':'pt','13':'','28':'pt','41':'','45':'','55':'pt','57':'pt','63':'pt','47':'','48':'','60':'','64':'','67':'','42':'','12':'','21':''}
     intercity_transit = ['47','48','60','64','67','42','12','13','21','41','45']
     king_county_metro = ['917', 'A Line', '225', '231', '239', '230', '250', '37', '910', '628', '372', '373', '630', '218', '631', '63', '4', '36', '43', '986', '823', '44', '987', '212', '45', '988', 'Trailhead Direct Issaquah Alps', '989', '824', '214', '47', '180', '48', '635', '216', '5', '217', '982', '41', '21', '984', 'F Line', 'E Line', '342', '345', '346', '952', '347', '894', '348', '49', '248', '355', '895', '116', '243', '245', '893', '118', '246', '661', '931', '119', '67', '915', '12', '249', '120', '238', '62', '226', '111', '24', '64', '193', '113', '240', '65', '930', '241', '114', '255', '73', '128', '74', '257', '75', '13', '907', '121', '122', '7', '123', '252', '70', '124', '71', '125', '221', '244', 'Trailhead Direct Cougar Mt.', '55', '994', '50', '995', 'Trailhead Direct Mailbox Peak', '219', '981', 'Trailhead Direct Mt. Si', '22', '224', '157', '204', '101', '232', '102', '105', '57', '106', '234', '156', '107', '235', '236', '60', '980', '237', 'B Line', '11', '775', '56', '1', '10', '166', '167', '903', '158', '908', '159', '3', '906', '301', '913', '914', '303', '164', '304', '916', '901', '178', '169', '308', '17', '309', '31', '311', '312', '177', '168', '629', 'Duvall-Monroe Shuttle', '268', '14', '76', '77', '131', '26', '773', '29', '132', '78', '40', '8', '887', 'C Line', '277', '9', '153', '28', '154', '269', 'D Line', '27', '143', '271', '886', '148', '888', '889', '15', '150', '891', '892', '208', '200', '181', '32', '182', '33', '183', '330', '331', '186', '187', '316', '179', '18', '192', '197', '2', '19', '190']
     pierce_transit = ['1','2','3','4','402','425','202','212','214','102','10','11','13','28','41','45','48','55','57','63']
