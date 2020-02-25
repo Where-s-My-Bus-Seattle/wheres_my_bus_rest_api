@@ -92,9 +92,9 @@ Repeated routes:
 ('already in there: ', '2pt')
 ('already in there: ', '3pt')
 ('already in there: ', '4pt')
-('already in there: ', '402pt')
-('already in there: ', '425pt')
-('already in there: ', '202pt')
+('already in there: ', '402pt')*
+('already in there: ', '425pt')*
+('already in there: ', '202pt')*
 ('already in there: ', '212pt')
 ('already in there: ', '214pt')
 ('already in there: ', '102pt')
@@ -115,7 +115,7 @@ Repeated routes:
 ('already in there: ', '60it')
 ('already in there: ', '64it')
 ('already in there: ', '67it')
-('already in there: ', '42it')
+('already in there: ', '42it')*
 ('already in there: ', '12it')
 ('already in there: ', '13it')
 ('already in there: ', '21it')
