@@ -25,6 +25,7 @@ class show_me_the_request(APIView):
     def post(self, request, lat, lon, format=None):
         the_audio_file = request.body
         print("the Audio file: ", the_audio_file)
+
         theBusRoute = '8'
         return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute)
 
@@ -251,10 +252,22 @@ def find_estimated_arrival(stop_id, bus_id):
 def clean_up_letter_a(query):
     """Check that 'a' is preceded or followed by a keyword"""
     key_words = ['line', 'route', 'bus']
-
-    if len(query) == 1:
-        return query
-
+    alphabet = ['b','c','d','e','f']
+    num_chars = set('1234567890')
+    special_cases = {
+        'dash':['dash'],
+        'nite':['nite'],
+        'one':['one'],
+        'link': ['link'], 
+        'sounder':['sounder south', 'sounder north'],
+        'monorail':['monorail sc', 'monorail wl'],
+        'amtrak':['amtrak'],
+        'tlink': ['tlink'],
+        'swift':['swift blue', 'swift green'],
+        'duvall':['duvall monroe shuttle'],
+        'trailhead': ['trailhead direct mt. si','trailhead direct mailbox peak','trailhead direct cougar mt.','trailhead direct issaquah alps']
+    }
+    override = False
     for word in range(len(query)):
         if query[word] == 'a':
             # preceding
@@ -269,6 +282,15 @@ def clean_up_letter_a(query):
                         query[word] = ''
                 except:
                     query[word] = ''
+        elif query[word] in alphabet or query[word] in special_cases or any(char in query[word] for char in num_chars):
+            override = True
+
+    if override:
+        for word in range(len(query)):
+            if query[word] is 'a':
+                print('word is a')
+                query[word] = ''   
+
     return query
 
 def check_special_cases(query, idx):
@@ -333,24 +355,24 @@ def check_all_words_in_query(query):
     }
     result = ''
 
-    for word in range(len(query)):
+    for i in range(len(query)):
 
         # is a letter
-        if query[word] in alphabet:
-            result += query[word].upper()
+        if query[i] in alphabet:
+            result += query[i].upper()
             result += '-Line'
             break
 
         # is a special case
-        elif query[word] in special_cases:
-            matched_special_case = check_special_cases(query, word)
+        elif query[i] in special_cases:
+            matched_special_case = check_special_cases(query, i)
             if matched_special_case:
                 result += matched_special_case
                 break
 
         # is a number
-        elif any(char in query[word] for char in num_chars):
-            result += query[word]
+        elif any(char in query[i] for char in num_chars):
+            result += query[i]
             break
 
     return result
