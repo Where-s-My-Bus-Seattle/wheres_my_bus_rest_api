@@ -284,13 +284,13 @@ def clean_up_letter_a(query):
                     query[word] = ''
         elif query[word] in alphabet or query[word] in special_cases or any(char in query[word] for char in num_chars):
             override = True
+
     if override:
-        print('OVERRIDING!?!?!')
         for word in range(len(query)):
             if query[word] is 'a':
                 print('word is a')
                 query[word] = ''   
-    print('query: ', query)
+
     return query
 
 def check_special_cases(query, idx):
