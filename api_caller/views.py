@@ -50,6 +50,7 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     bus_route = clean_data['bus_route']
     user_lat = clean_data['user_lat']
     user_lon = clean_data['user_lon']
+    old_route = clean_data['old_route']
     
 # 2. Find closest stops.
     closest_stops = find_closest_stops(user_lat,user_lon,bus_id)
@@ -67,7 +68,7 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
        
         return JsonResponse({
             'status': 'good',
-            'route': bus_route,
+            'route': old_route,
             'closest_stop': { 
                 'closest_name': closest_stops['name_of_closest'],
                 'closest_direction': closest_stops['closest_direction'],
@@ -121,10 +122,11 @@ def clean_route_data(lat, lon, bus_route):
         return None
 
 # 4. Check if it is a repeated route
+    old_route = bus_route
     bus_route = check_if_repeated_route(bus_route, user_lat)
     
     try:
-        return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route}
+        return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route, 'old_route': old_route}
     except:
         return None
 
@@ -146,7 +148,6 @@ def find_closest_stops(user_lat, user_lon, bus_id):
     response = requests.get(f'http://api.pugetsound.onebusaway.org/api/where/stops-for-route/{bus_id}.json?key=TEST&version=2')
     bus_data = response.json()
     bus_stops = bus_data['data']['references']['stops']
-
     if not bus_stops:
         return None
 
@@ -385,6 +386,7 @@ def check_if_repeated_route(route, user_lat):
 
     [Returns]: updated bus_route[string]
     """
+    old_bus_route = route
     bus_route = route
     repeated_routes = {'101':'','105':'','106':'','107':'','230':'','111':'','113':'','116':'','119':'','240':'','120':'','271':'','70':'','2':'pt','7':'','8':'','18':'','29':'','1':'pt','3':'pt','4':'pt','402':'pt','425':'pt','202':'pt','212':'pt','214':'pt','102':'pt','10':'pt','11':'pt','13':'','28':'pt','41':'','45':'','55':'pt','57':'pt','63':'pt','47':'','48':'','60':'','64':'','67':'','42':'','12':'','21':''}
     intercity_transit = ['47','48','60','64','67','42','12','13','21','41','45']
@@ -419,4 +421,3 @@ def check_if_repeated_route(route, user_lat):
                 bus_route += repeated_routes[bus_route] 
 
     return bus_route
-    
