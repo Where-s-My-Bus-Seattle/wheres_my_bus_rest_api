@@ -25,17 +25,17 @@ class show_me_the_request(APIView):
 
     def post(self, request, lat, lon, format=None):
         the_audio_file = request.body
-        decoded = urllib.parse.unquote(the_audio_file)
-        print("the Audio file: ", decoded)
+        # decoded = urllib.parse.unquote(the_audio_file)
+        print("the Audio file: ", the_audio_file)
 
         theBusRoute = '8'
-        return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute)
+        return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute, the_audio_file)
 
 
 ############################################################################################
 ## Get Route for Form Submission ###########################################################    
 ############################################################################################
-def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
+def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route, for_test):
     """
     1. Cleans Data
     2. Gets the two closest stops (both directions)
@@ -52,7 +52,6 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     bus_route = clean_data['bus_route']
     user_lat = clean_data['user_lat']
     user_lon = clean_data['user_lon']
-    old_route = clean_data['old_route']
     
 # 2. Find closest stops.
     closest_stops = find_closest_stops(user_lat,user_lon,bus_id)
@@ -70,7 +69,8 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
        
         return JsonResponse({
             'status': 'good',
-            'route': old_route,
+            'testing': for_test,
+            'route': bus_route,
             'closest_stop': { 
                 'closest_name': closest_stops['name_of_closest'],
                 'closest_direction': closest_stops['closest_direction'],
@@ -86,7 +86,7 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
                 'next_closest_minutes': next_closest_arrival,
                 'next_closest_lat': closest_stops['next_closest_stop_lat'],
                 'next_closest_lon': closest_stops['next_closest_stop_lon'],
-            }
+            },
         })
     
     return JsonResponse({'status': 'bad', 'error': 'no arrival time'})
