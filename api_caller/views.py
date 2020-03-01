@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from rest_framework.views import APIView
 import urllib.parse
+import base64
 import requests
 import time
 import json
@@ -24,12 +25,25 @@ class show_me_the_request(APIView):
     """
 
     def post(self, request, lat, lon, format=None):
-        the_audio_file = request.body
-        # decoded = urllib.parse.unquote(the_audio_file)
-        print("the Audio file: ", the_audio_file)
-
         theBusRoute = '8'
-        return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute, the_audio_file)
+        the_audio_file = request.body
+
+        # print("the Audio file: ", the_audio_file)
+        # return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute, the_audio_file)
+        
+        # encoded = base64.b64encode(the_audio_file)
+        # print("the Audio file: ", encoded)
+        # return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute, encoded)
+
+        decoded = base64.b64decode(the_audio_file)
+        print("the Audio file: ", decoded)
+        return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute, decoded)
+
+        # urldecoded = urllib.parse.unquote(the_audio_file)
+        # print("the Audio file: ", urldecoded)
+        # return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute, urldecoded)
+
+
 
 
 ############################################################################################
