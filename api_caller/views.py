@@ -27,6 +27,10 @@ class show_me_the_request(APIView):
     def post(self, request, lat, lon, format=None):
         theBusRoute = '8'
         the_audio_file = request.body
+        print('is bytes?: ', isinstance(the_audio_file, bytes))
+
+        # the_audio_file = base64.decodebytes(the_audio_file)
+        # the_audio_file = base64.b64decode(the_audio_file).decode('base64')
         print(the_audio_file)
 
         return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute, the_audio_file)
@@ -44,7 +48,6 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route, for
     """
 # 1. Clean the data.
     clean_data = clean_route_data(lat,lon,bus_route)
-
     if not clean_data:
         return JsonResponse({'status': 'bad', 'error': 'not clean data'})
 
