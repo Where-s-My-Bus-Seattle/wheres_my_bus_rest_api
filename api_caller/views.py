@@ -52,6 +52,7 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
     bus_route = clean_data['bus_route']
     user_lat = clean_data['user_lat']
     user_lon = clean_data['user_lon']
+    old_route = clean_data['old_route']
     
 # 2. Find closest stops.
     closest_stops = find_closest_stops(user_lat,user_lon,bus_id)
@@ -69,7 +70,7 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
        
         return JsonResponse({
             'status': 'good',
-            'route': bus_route,
+            'route': old_route,
             'closest_stop': { 
                 'closest_name': closest_stops['name_of_closest'],
                 'closest_direction': closest_stops['closest_direction'],
@@ -148,7 +149,6 @@ def find_closest_stops(user_lat, user_lon, bus_id):
     response = requests.get(f'http://api.pugetsound.onebusaway.org/api/where/stops-for-route/{bus_id}.json?key=TEST&version=2')
     bus_data = response.json()
     bus_stops = bus_data['data']['references']['stops']
-
     if not bus_stops:
         return None
 
@@ -421,4 +421,3 @@ def check_if_repeated_route(route, user_lat):
                 bus_route += repeated_routes[bus_route] 
 
     return bus_route
-    
