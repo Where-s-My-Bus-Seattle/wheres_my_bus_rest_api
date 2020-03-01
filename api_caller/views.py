@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from rest_framework.views import APIView
+import urllib.parse
 import requests
 import time
 import json
@@ -24,7 +25,8 @@ class show_me_the_request(APIView):
 
     def post(self, request, lat, lon, format=None):
         the_audio_file = request.body
-        print("the Audio file: ", the_audio_file)
+        decoded = urllib.parse.unquote(the_audio_file)
+        print("the Audio file: ", decoded)
 
         theBusRoute = '8'
         return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute)
@@ -122,11 +124,10 @@ def clean_route_data(lat, lon, bus_route):
         return None
 
 # 4. Check if it is a repeated route
-    old_route = bus_route
-    bus_route = check_if_repeated_route(bus_route, user_lat)
+    matched_bus_route = check_if_repeated_route(bus_route, user_lat)
     
     try:
-        return {'bus_id':route_data[bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route, 'old_route': old_route}
+        return {'bus_id':route_data[matched_bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route}
     except:
         return None
 
