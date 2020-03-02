@@ -123,7 +123,7 @@ def clean_route_data(lat, lon, bus_route):
         return None
 
 # 4. Check if it is a repeated route
-    matched_bus_route = check_if_repeated_route(bus_route, user_lat)
+    matched_bus_route = check_if_repeated_route(bus_route, user_lat, user_lon)
     
     try:
         return {'bus_id':route_data[matched_bus_route], 'user_lat':user_lat, 'user_lon':user_lon, 'bus_route': bus_route}
@@ -380,7 +380,7 @@ def check_all_words_in_query(query):
 
     return result
 
-def check_if_repeated_route(route, user_lat):
+def check_if_repeated_route(route, user_lat, user_lon):
     """
     Checks if route is a repeated route. Adds correct identifier to route number.
 
@@ -396,7 +396,13 @@ def check_if_repeated_route(route, user_lat):
     north_routes = ['101','105','106','107','230','111','113','116','119','240','120','271','70','2','3','4','7','8','12','18','29']
     
     if bus_route in repeated_routes:
-        if user_lat > 47.7:
+        if user_lon < -122.5 and user_lat > 47.1:
+            # going to be pierce county (or kitsap)
+            if bus_route in pierce_transit: 
+                bus_route += 'pt'
+            else:
+                bus_route += repeated_routes[bus_route]
+        elif user_lat > 47.7:
             # going to be community transit or everett transit (N)
             if bus_route in north_routes: 
                 bus_route += 'N'
