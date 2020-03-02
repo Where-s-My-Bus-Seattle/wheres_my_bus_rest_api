@@ -268,6 +268,8 @@ def clean_up_letter_a(query):
         'duvall':['duvall monroe shuttle'],
         'trailhead': ['trailhead direct mt. si','trailhead direct mailbox peak','trailhead direct cougar mt.','trailhead direct issaquah alps']
     }
+    if len(query) == 1:
+        return query
     override = False
     for word in range(len(query)):
         if query[word] == 'a':
