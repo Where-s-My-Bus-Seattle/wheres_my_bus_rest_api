@@ -8,7 +8,6 @@ import json
 with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
 
-for_test = 'request_from_input_field'
 ############################################################################################
 ## Post Route for Speech Recognition #######################################################
 ############################################################################################
@@ -28,16 +27,15 @@ class show_me_the_request(APIView):
         the_audio_file = the_audio_file.decode("utf-8") # turn bytes into string again
         print('is bytes?: ', isinstance(the_audio_file, bytes))
 
-        global for_test
         for_test = the_audio_file # update for_test to send to front-end
 
-        return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute)
+        return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute, for_test)
 
 
 ############################################################################################
 ## Get Route for Form Submission ###########################################################    
 ############################################################################################
-def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
+def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route, audio_string='from_input'):
     """
     1. Cleans Data
     2. Gets the two closest stops (both directions)
@@ -70,7 +68,7 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route):
        
         return JsonResponse({
             'status': 'good',
-            'testing': for_test,
+            'testing': audio_string,
             'route': bus_route,
             'closest_stop': { 
                 'closest_name': closest_stops['name_of_closest'],
