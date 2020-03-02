@@ -1,8 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from rest_framework.views import APIView
-import urllib.parse
-import base64
 import requests
 import time
 import json
@@ -10,7 +8,7 @@ import json
 with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
 
-for_test = 'input_field'
+for_test = 'request_from_input_field'
 ############################################################################################
 ## Post Route for Speech Recognition #######################################################
 ############################################################################################
@@ -26,11 +24,12 @@ class show_me_the_request(APIView):
     """
     def post(self, request, lat, lon, format=None):
         theBusRoute = '8'
-        the_audio_file = request.body
-        the_audio_file = the_audio_file.decode("utf-8")
+        the_audio_file = request.body # bytes
+        the_audio_file = the_audio_file.decode("utf-8") # turn bytes into string again
         print('is bytes?: ', isinstance(the_audio_file, bytes))
 
-        for_test = the_audio_file
+        global for_test
+        for_test = the_audio_file # update for_test to send to front-end
 
         return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute)
 
