@@ -276,7 +276,7 @@ def find_estimated_arrival(stop_id, bus_id):
             
 
     return {
-        'estimated': None
+        'estimated': None,
         'destination': None
     }
 
