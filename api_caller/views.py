@@ -64,7 +64,7 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route, aud
     next_closest_arrival = find_estimated_arrival(closest_stops['next_closest_stop_id'], bus_id)
 
 # 4. Check that a valid time was returned from find_estimated_arrival    
-    if closest_arrival or next_closest_arrival:
+    if closest_arrival['estimated'] or next_closest_arrival['estimated']:
 
         return JsonResponse({
             'status': 'good',
@@ -221,7 +221,6 @@ def find_closest_stops(user_lat, user_lon, bus_id):
 
 # 4. Return closest and next closest as an object.
     try:
-
         return {
             'closest_stop_id':closest_stop_id,
             'next_closest_stop_id':next_closest_stop_id,
@@ -276,7 +275,10 @@ def find_estimated_arrival(stop_id, bus_id):
             }
             
 
-    return None
+    return {
+        'estimated': None
+        'destination': None
+    }
 
 
 ############################################################################################
