@@ -65,7 +65,7 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route, aud
 
 # 4. Check that a valid time was returned from find_estimated_arrival    
     if closest_arrival or next_closest_arrival:
-       
+
         return JsonResponse({
             'status': 'good',
             'testing': audio_string,
@@ -74,17 +74,19 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route, aud
                 'closest_name': closest_stops['name_of_closest'],
                 'closest_direction': closest_stops['closest_direction'],
                 'closest_stop_id': closest_stops['closest_stop_id'],
-                'closest_minutes': closest_arrival,
+                'closest_minutes': closest_arrival['estimated'],
                 'closest_lat': closest_stops['closest_stop_lat'],
                 'closest_lon': closest_stops['closest_stop_lon'],
+                'closest_destination': closest_arrival['destination']
             },
             'next_closest_stop': {
                 'next_closest_name': closest_stops['name_of_next_closest'],
                 'next_closest_direction': closest_stops['next_closest_direction'],
                 'next_closest_stop_id': closest_stops['next_closest_stop_id'],
-                'next_closest_minutes': next_closest_arrival,
+                'next_closest_minutes': next_closest_arrival['estimated'],
                 'next_closest_lat': closest_stops['next_closest_stop_lat'],
                 'next_closest_lon': closest_stops['next_closest_stop_lon'],
+                'next_closest_destination': next_closest_arrival['destination']
             },
         })
     
@@ -148,6 +150,7 @@ def find_closest_stops(user_lat, user_lon, bus_id):
     response = requests.get(f'http://api.pugetsound.onebusaway.org/api/where/stops-for-route/{bus_id}.json?key=TEST&version=2')
     bus_data = response.json()
     bus_stops = bus_data['data']['references']['stops']
+
     if not bus_stops:
         return None
 
@@ -177,6 +180,9 @@ def find_closest_stops(user_lat, user_lon, bus_id):
     closest_stop_lon = bus_stops[index]['lon']
     closest_direction = bus_stops[index]['direction']
     name_of_closest = bus_stops[index]['name']
+    closest_route = bus_stops[index]['routeIds']
+    closest_bus = bus_stops[index]['id']
+    
     opposites = ['N', 'NE', 'NW', 'E', 'SE', 'SW', 'W', 'S']
 
     if closest_direction: 
@@ -193,7 +199,9 @@ def find_closest_stops(user_lat, user_lon, bus_id):
     for diff in differences[1:]:
         index = indices[diff]
         current_direction = bus_stops[index]['direction']
-
+        current_route = bus_stops[index]['routeIds']
+        current_bus = bus_stops[index]['id']
+ 
         if current_direction:
             if current_direction in opposites:
                 next_closest_stop_id = bus_stops[index]['id']
@@ -203,15 +211,17 @@ def find_closest_stops(user_lat, user_lon, bus_id):
                 next_closest_direction = bus_stops[index]['direction']
                 break
         else:
-            next_closest_stop_id = bus_stops[index]['id']
-            next_closest_stop_lat = bus_stops[index]['lat']
-            next_closest_stop_lon = bus_stops[index]['lon']
-            name_of_next_closest = bus_stops[index]['name']
-            next_closest_direction = bus_stops[index]['direction']
-            break
+            if current_direction in opposites:
+                next_closest_stop_id = bus_stops[index]['id']
+                next_closest_stop_lat = bus_stops[index]['lat']
+                next_closest_stop_lon = bus_stops[index]['lon']
+                name_of_next_closest = bus_stops[index]['name']
+                next_closest_direction = bus_stops[index]['direction']
+                break
 
 # 4. Return closest and next closest as an object.
     try:
+
         return {
             'closest_stop_id':closest_stop_id,
             'next_closest_stop_id':next_closest_stop_id,
@@ -239,19 +249,19 @@ def find_estimated_arrival(stop_id, bus_id):
     response = requests.get(f'http://api.pugetsound.onebusaway.org/api/where/arrivals-and-departures-for-stop/{stop_id}.json?key=TEST')
     stop_data = response.json()
     list_of_arrivals = stop_data['data']['entry']['arrivalsAndDepartures']
-
     arrival_time = 0
     current_time = ((time.time()) *1000) # convert to epoch time
     
     #check all arrivals
     for arrival in list_of_arrivals:
-
         # find the correct arrival listing 
         if arrival['routeId'] == bus_id:
 
             # predicted time IS available (it is not always) 
             if arrival['predictedArrivalTime'] != 0: 
                 arrival_time = arrival['predictedArrivalTime']
+                
+
             
             # predicted time NOT available
             else: 
@@ -260,7 +270,11 @@ def find_estimated_arrival(stop_id, bus_id):
         # make sure to only show busses that have NOT arrived yet. (arriving in the future)(Arrivaltime > current_time -- i.e in the future)    
         if arrival_time > current_time:
             print('SUCCESS=====================', arrival_time)
-            return ((arrival_time - current_time)//60000) # time in minutes (rounded)
+            return {
+                'estimated':((arrival_time - current_time)//60000), # time in minutes (rounded)
+                'destination':arrival['tripHeadsign']
+            }
+            
 
     return None
 
