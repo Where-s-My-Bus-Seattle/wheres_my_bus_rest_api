@@ -182,16 +182,18 @@ def find_closest_stops(user_lat, user_lon, bus_id):
     name_of_closest = bus_stops[index]['name']
     closest_route = bus_stops[index]['routeIds']
     closest_bus = bus_stops[index]['id']
+    
+    opposites = ['N', 'NE', 'NW', 'E', 'SE', 'SW', 'W', 'S']
 
-    if closest_direction[0] == 'N':
-        opposites = ['S', 'SW', 'SE']
-    elif closest_direction[0] == 'E':
-        opposites = ['NW', 'W', 'SW']
-    elif closest_direction[0] == 'S':
-        opposites = ['N', 'NW', 'NE']
-    elif closest_direction[0] == 'W':
-        opposites = ['E', 'SE', 'NE']
-
+    if closest_direction: 
+        if closest_direction[0] == 'N':
+            opposites = ['S', 'SW', 'SE']
+        elif closest_direction[0] == 'E':
+            opposites = ['NW', 'W', 'SW']
+        elif closest_direction[0] == 'S':
+            opposites = ['N', 'NW', 'NE']
+        elif closest_direction[0] == 'W':
+            opposites = ['E', 'SE', 'NE']
 
     # Find Next Closest in the list. Different Direction.
     for diff in differences[1:]:
@@ -200,14 +202,22 @@ def find_closest_stops(user_lat, user_lon, bus_id):
         current_route = bus_stops[index]['routeIds']
         current_bus = bus_stops[index]['id']
  
-
-        if current_direction in opposites:
-            next_closest_stop_id = bus_stops[index]['id']
-            next_closest_stop_lat = bus_stops[index]['lat']
-            next_closest_stop_lon = bus_stops[index]['lon']
-            name_of_next_closest = bus_stops[index]['name']
-            next_closest_direction = bus_stops[index]['direction']
-            break
+        if current_direction:
+            if current_direction in opposites:
+                next_closest_stop_id = bus_stops[index]['id']
+                next_closest_stop_lat = bus_stops[index]['lat']
+                next_closest_stop_lon = bus_stops[index]['lon']
+                name_of_next_closest = bus_stops[index]['name']
+                next_closest_direction = bus_stops[index]['direction']
+                break
+        else:
+            if current_direction in opposites:
+                next_closest_stop_id = bus_stops[index]['id']
+                next_closest_stop_lat = bus_stops[index]['lat']
+                next_closest_stop_lon = bus_stops[index]['lon']
+                name_of_next_closest = bus_stops[index]['name']
+                next_closest_direction = bus_stops[index]['direction']
+                break
 
 # 4. Return closest and next closest as an object.
     try:
