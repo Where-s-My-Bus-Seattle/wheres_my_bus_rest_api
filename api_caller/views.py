@@ -120,11 +120,11 @@ def clean_route_data(lat, lon, bus_route):
     matched_route = check_all_words_in_query(query)    
     bus_route = matched_route
  
-# 4. Check our dictionary of Puget Sound Area Routes
+# 4a. Check our dictionary of Puget Sound Area Routes
     if bus_route not in route_data:
         return None
 
-# 4. Check if it is a repeated route
+# 4b. Check if it is a repeated route
     matched_bus_route = check_if_repeated_route(bus_route, user_lat, user_lon)
     
     try:
@@ -180,12 +180,10 @@ def find_closest_stops(user_lat, user_lon, bus_id):
     closest_stop_lon = bus_stops[index]['lon']
     closest_direction = bus_stops[index]['direction']
     name_of_closest = bus_stops[index]['name']
-    closest_route = bus_stops[index]['routeIds']
-    closest_bus = bus_stops[index]['id']
     
-    opposites = ['N', 'NE', 'NW', 'E', 'SE', 'SW', 'W', 'S']
+    opposites = ['N', 'NE', 'NW', 'E', 'SE', 'SW', 'W', 'S', None]
 
-    if closest_direction: 
+    if closest_direction: # on rare occasions, None is returned from O.B.A.
         if closest_direction[0] == 'N':
             opposites = ['S', 'SW', 'SE']
         elif closest_direction[0] == 'E':
@@ -199,25 +197,15 @@ def find_closest_stops(user_lat, user_lon, bus_id):
     for diff in differences[1:]:
         index = indices[diff]
         current_direction = bus_stops[index]['direction']
-        current_route = bus_stops[index]['routeIds']
-        current_bus = bus_stops[index]['id']
  
-        if current_direction:
-            if current_direction in opposites:
-                next_closest_stop_id = bus_stops[index]['id']
-                next_closest_stop_lat = bus_stops[index]['lat']
-                next_closest_stop_lon = bus_stops[index]['lon']
-                name_of_next_closest = bus_stops[index]['name']
-                next_closest_direction = bus_stops[index]['direction']
-                break
-        else:
-            if current_direction in opposites:
-                next_closest_stop_id = bus_stops[index]['id']
-                next_closest_stop_lat = bus_stops[index]['lat']
-                next_closest_stop_lon = bus_stops[index]['lon']
-                name_of_next_closest = bus_stops[index]['name']
-                next_closest_direction = bus_stops[index]['direction']
-                break
+        if current_direction in opposites:
+            next_closest_stop_id = bus_stops[index]['id']
+            next_closest_stop_lat = bus_stops[index]['lat']
+            next_closest_stop_lon = bus_stops[index]['lon']
+            name_of_next_closest = bus_stops[index]['name']
+            next_closest_direction = bus_stops[index]['direction']
+            break
+
 
 # 4. Return closest and next closest as an object.
     try:
@@ -258,10 +246,7 @@ def find_estimated_arrival(stop_id, bus_id):
 
             # predicted time IS available (it is not always) 
             if arrival['predictedArrivalTime'] != 0: 
-                arrival_time = arrival['predictedArrivalTime']
-                
-
-            
+                arrival_time = arrival['predictedArrivalTime']            
             # predicted time NOT available
             else: 
                 arrival_time = arrival['scheduledArrivalTime']
@@ -274,7 +259,6 @@ def find_estimated_arrival(stop_id, bus_id):
                 'destination':arrival['tripHeadsign']
             }
             
-
     return {
         'estimated': None,
         'destination': None
@@ -284,7 +268,6 @@ def find_estimated_arrival(stop_id, bus_id):
 ############################################################################################
 ## Helper Functions ########################################################################
 ############################################################################################
-
 def clean_up_letter_a(query):
     """Check that 'a' is preceded or followed by a keyword"""
     key_words = ['line', 'route', 'bus']
@@ -330,6 +313,7 @@ def clean_up_letter_a(query):
                 query[word] = ''   
 
     return query
+
 
 def check_special_cases(query, idx):
     """
