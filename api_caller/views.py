@@ -177,13 +177,32 @@ def find_closest_stops(user_lat, user_lon, bus_id):
     closest_stop_lon = bus_stops[index]['lon']
     closest_direction = bus_stops[index]['direction']
     name_of_closest = bus_stops[index]['name']
+    opposites = ['N', 'NE', 'NW', 'E', 'SE', 'SW', 'W', 'S']
+
+    if closest_direction: 
+        if closest_direction[0] == 'N':
+            opposites = ['S', 'SW', 'SE']
+        elif closest_direction[0] == 'E':
+            opposites = ['NW', 'W', 'SW']
+        elif closest_direction[0] == 'S':
+            opposites = ['N', 'NW', 'NE']
+        elif closest_direction[0] == 'W':
+            opposites = ['E', 'SE', 'NE']
 
     # Find Next Closest in the list. Different Direction.
     for diff in differences[1:]:
         index = indices[diff]
         current_direction = bus_stops[index]['direction']
 
-        if current_direction != closest_direction:
+        if current_direction:
+            if current_direction in opposites:
+                next_closest_stop_id = bus_stops[index]['id']
+                next_closest_stop_lat = bus_stops[index]['lat']
+                next_closest_stop_lon = bus_stops[index]['lon']
+                name_of_next_closest = bus_stops[index]['name']
+                next_closest_direction = bus_stops[index]['direction']
+                break
+        else:
             next_closest_stop_id = bus_stops[index]['id']
             next_closest_stop_lat = bus_stops[index]['lat']
             next_closest_stop_lon = bus_stops[index]['lon']
