@@ -45,7 +45,7 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route, aud
 # 1. Clean the data.
     clean_data = clean_route_data(lat,lon,bus_route)
     if not clean_data:
-        return JsonResponse({'status': 'bad', 'error': 'not clean data'})
+        return JsonResponse({'status': 'bad', 'error': 'not clean data. determined invalid route query', 'query': bus_route})
 
     bus_id = clean_data['bus_id']
     bus_route = clean_data['bus_route']
@@ -55,9 +55,8 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route, aud
 # 2. Find closest stops.
     closest_stops = find_closest_stops(user_lat,user_lon,bus_id)
 
-    ## TODO: handle if only one stop comes back?? (sounder train? NORTH/SOUTH)
-    if not closest_stops:
-        return JsonResponse({'status': 'bad', 'error': 'no two stops available nearby'})
+    if not closest_stops: # zero stops
+        return JsonResponse({'status': 'bad', 'error': 'no stops available nearby', 'lat:': user_lat, 'lon:': user_lon, 'query': bus_route})
 
 # 3. Finding arrival times for: the specific_bus at the nearest_stops
     closest_arrival = find_estimated_arrival(closest_stops['closest_stop_id'], bus_id)
@@ -68,7 +67,6 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route, aud
 
         return JsonResponse({
             'status': 'good',
-            'testing': audio_string,
             'route': bus_route,
             'closest_stop': { 
                 'closest_name': closest_stops['name_of_closest'],
@@ -88,9 +86,10 @@ def get_a_routes_closest_stop_and_arrival_time(request, lat, lon, bus_route, aud
                 'next_closest_lon': closest_stops['next_closest_stop_lon'],
                 'next_closest_destination': next_closest_arrival['destination']
             },
+            'testing': audio_string,
         })
     
-    return JsonResponse({'status': 'bad', 'error': 'no arrival time'})
+    return JsonResponse({'status': 'bad', 'error': 'no arrival time', 'closest_stop': {'id': closest_stops['closest_stop_id'], 'estimated_arrival': closest_arrival['estimated']}, 'next_closest_stop':{'id': closest_stops['next_closest_stop_id'], 'estimated_arrival': next_closest_arrival['estimated']}})
 
 
 ############################################################################################
@@ -114,7 +113,7 @@ def clean_route_data(lat, lon, bus_route):
     query = bus_route.lower().split()
 
 # 2. Clean up letter 'a'
-    query = clean_up_letter_a(query)        
+    query = clean_up_letter_a(query)
 
 # 3. Check all words in query
     matched_route = check_all_words_in_query(query)    
@@ -222,7 +221,18 @@ def find_closest_stops(user_lat, user_lon, bus_id):
             'next_closest_stop_lon':next_closest_stop_lon
         }
     except:
-        return None
+        return {
+            'closest_stop_id':closest_stop_id,
+            'name_of_closest':name_of_closest,
+            'closest_direction':closest_direction,
+            'closest_stop_lon':closest_stop_lon,
+            'closest_stop_lat':closest_stop_lat,
+            'next_closest_stop_id':None,
+            'name_of_next_closest':None,
+            'next_closest_direction':None,
+            'next_closest_stop_lat':None,
+            'next_closest_stop_lon':None
+        }
 
 
 ############################################################################################
@@ -233,6 +243,9 @@ def find_estimated_arrival(stop_id, bus_id):
     [Parameters]: (stop_id[string], bus_id[string])
     [Returns]: (time_in_minutes[integer])
     """
+    if not stop_id:
+        return { 'estimated': None, 'destination': None }
+
     response = requests.get(f'http://api.pugetsound.onebusaway.org/api/where/arrivals-and-departures-for-stop/{stop_id}.json?key=TEST')
     stop_data = response.json()
     list_of_arrivals = stop_data['data']['entry']['arrivalsAndDepartures']
