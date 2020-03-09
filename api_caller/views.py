@@ -4,7 +4,6 @@ from rest_framework.views import APIView
 import requests
 import time
 import json
-import base64
 
 with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
@@ -25,9 +24,8 @@ class show_me_the_request(APIView):
     def post(self, request, lat, lon, format=None):
         theBusRoute = '8'
         the_audio_file = request.body # bytes
-        wav_file = base64.decodestring(the_audio_file) # turn bytes into string again
-        print('wave?: ', wav_file)
-        print(type(wav_file))
+        the_audio_file = the_audio_file.decode("utf-8") # turn bytes into string again
+        print('is bytes?: ', isinstance(the_audio_file, bytes))
 
         for_test = the_audio_file # update for_test to send to front-end
 
