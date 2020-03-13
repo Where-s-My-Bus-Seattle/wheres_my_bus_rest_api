@@ -36,12 +36,12 @@ class show_me_the_request(APIView):
         
         # use the audio file as the audio source
         r = sr.Recognizer()
-        with sr.AudioFile('audio.wav') as source: #### Assertion Error: given audio file must be a file name string or a file-like object
-            audio = r.record(source)  # read the entire audio file
+        with sr.AudioFile(audio) as source: #### Assertion Error: given audio file must be a file name string or a file-like object
+            sa = r.record(source)  # read the entire audio file
 
         # recognize speech using Sphinx
         try:
-            print("Sphinx thinks you said " + r.recognize_sphinx(audio))
+            print("Sphinx thinks you said " + r.recognize_sphinx(sa))
         except sr.UnknownValueError:
             print("Sphinx could not understand audio")
         except sr.RequestError as e:
