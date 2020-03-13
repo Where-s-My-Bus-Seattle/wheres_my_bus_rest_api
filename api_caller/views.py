@@ -4,9 +4,11 @@ from rest_framework.views import APIView
 import requests
 import time
 import json
+import speech_recognition as sr
 
 with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
+
 
 ############################################################################################
 ## Post Route for Speech Recognition #######################################################
@@ -24,8 +26,24 @@ class show_me_the_request(APIView):
     def post(self, request, lat, lon, format=None):
         theBusRoute = '8'
         the_audio_file = request.body # bytes
-        the_audio_file = the_audio_file.decode("utf-8") # turn bytes into string again
+
+        # the_audio_file = the_audio_file.decode("utf-8") # turn bytes into string again
+        
         print('is bytes?: ', isinstance(the_audio_file, bytes))
+        
+        # use the audio file as the audio source
+        r = sr.Recognizer()
+        with sr.AudioFile(the_audio_file) as source:
+            audio = r.record(source)  # read the entire audio file
+
+        # recognize speech using Sphinx
+        try:
+            print("Sphinx thinks you said " + r.recognize_sphinx(audio))
+        except sr.UnknownValueError:
+            print("Sphinx could not understand audio")
+        except sr.RequestError as e:
+            print("Sphinx error; {0}".format(e))
+
 
         for_test = the_audio_file # update for_test to send to front-end
 
