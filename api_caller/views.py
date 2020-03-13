@@ -30,10 +30,13 @@ class show_me_the_request(APIView):
         # the_audio_file = the_audio_file.decode("utf-8") # turn bytes into string again
         
         print('is bytes?: ', isinstance(the_audio_file, bytes))
+
+        with open('audio.wav', 'wb') as audio:
+            audio.write(the_audio_file)
         
         # use the audio file as the audio source
         r = sr.Recognizer()
-        with sr.AudioFile(the_audio_file) as source:
+        with sr.AudioFile('audio.wav') as source: #### Assertion Error: given audio file must be a file name string or a file-like object
             audio = r.record(source)  # read the entire audio file
 
         # recognize speech using Sphinx
