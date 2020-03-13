@@ -31,7 +31,7 @@ class show_me_the_request(APIView):
         
         print('is bytes?: ', isinstance(the_audio_file, bytes))
 
-        with open('audio.wav', 'wb') as audio:
+        with open('bus_routes/audio.wav', 'wb') as audio:
             audio.write(the_audio_file)
         
         # use the audio file as the audio source
