@@ -34,7 +34,8 @@ class show_me_the_request(APIView):
         
         # https://docs.python.org/3/library/wave.html
         wav = wave.open('temp.wav', 'wb')
-        wav.writeframesraw(the_audio_file)
+        wav.setparams(1,480000,12000,1024,None,None) #(nchannels, sampwidth, framerate, nframes, comptype, compname)
+        wav.writeframesraw(the_audio_file) #wav.Error #channels not specified
         
         # use the audio file as the audio source
         r = sr.Recognizer()
