@@ -27,29 +27,22 @@ class show_me_the_request(APIView):
         theBusRoute = '8'
         the_audio_file = request.body # bytes
 
-        # the_audio_file = the_audio_file.decode("utf-8") # turn bytes into string again
+        the_audio_file = the_audio_file.decode("utf-8") # turn bytes into string again
         
         print('is bytes?: ', isinstance(the_audio_file, bytes))
-
-        # a = ' '.join(format(x, 'b') for x in bytearray(the_audio_file))
-
-        # with open('bus_routes/audio.wav', 'wb') as audio:
-        #     audio.write(a)
-
-        # with open('Test_Audio.wav') as audio:
         
-        # use the audio file as the audio source
-        r = sr.Recognizer()
-        with sr.AudioFile("Test_Audio.wav") as source: #### Assertion Error: given audio file must be a file name string or a file-like object
-            sa = r.record(source)  # read the entire audio file
+        # # use the audio file as the audio source
+        # r = sr.Recognizer()
+        # with sr.AudioFile("Test_Audio.wav") as source: #### Assertion Error: given audio file must be a file name string or a file-like object
+        #     sa = r.record(source)  # read the entire audio file
 
-        # recognize speech using Sphinx
-        try:
-            print("Sphinx thinks you said " + r.recognize_sphinx(sa))
-        except sr.UnknownValueError:
-            print("Sphinx could not understand audio")
-        except sr.RequestError as e:
-            print("Sphinx error; {0}".format(e))
+        # # recognize speech using Sphinx
+        # try:
+        #     print("Sphinx thinks you said " + r.recognize_sphinx(sa))
+        # except sr.UnknownValueError:
+        #     print("Sphinx could not understand audio")
+        # except sr.RequestError as e:
+        #     print("Sphinx error; {0}".format(e))
 
 
         for_test = the_audio_file # update for_test to send to front-end
