@@ -33,13 +33,24 @@ class show_me_the_request(APIView):
         print('is bytes?: ', isinstance(the_audio_file, bytes))
         
         # https://docs.python.org/3/library/wave.html
-        wav = wave.open('temp.wav', 'wb')
-        wav.setparams(1,480000,12000,1024,None,None) #(nchannels, sampwidth, framerate, nframes, comptype, compname)
-        wav.writeframesraw(the_audio_file) #wav.Error #channels not specified
+        # wav = wave.open('temp.wav', 'wb')
+        # wav.setparams(1,480000,12000,1024,None,None) #(nchannels, sampwidth, framerate, nframes, comptype, compname)
+        # wav.writeframesraw(the_audio_file) #wav.Error #channels not specified
+
+    # https://www.tutorialspoint.com/read-and-write-wav-files-using-python-wave
+        sampleRate = 44100.0 # hertz
+        duration = 1.0 # seconds
+        frequency = 440.0 # hertz
+        obj = wave.open('sound.wav','wb')
+        obj.setnchannels(1) # mono
+        obj.setsampwidth(2)
+        obj.setframerate(sampleRate)
+        obj.writeframesraw( the_audio_file )
+        obj.close()
         
         # use the audio file as the audio source
         r = sr.Recognizer()
-        with sr.AudioFile(wav) as source: #### Assertion Error: given audio file must be a file name string or a file-like object
+        with sr.AudioFile(obj) as source: #### Assertion Error: given audio file must be a file name string or a file-like object
             sa = r.record(source)  # read the entire audio file
 
         # recognize speech using Sphinx
