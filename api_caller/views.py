@@ -50,16 +50,16 @@ class show_me_the_request(APIView):
         
         # use the audio file as the audio source
         r = sr.Recognizer()
-        with sr.AudioFile(obj) as source: #### Assertion Error: given audio file must be a file name string or a file-like object
+        with sr.AudioFile('sound.wav') as source: #### Assertion Error: given audio file must be a file name string or a file-like object
             sa = r.record(source)  # read the entire audio file
 
-        # recognize speech using Sphinx
+        # recognize speech using google api
         try:
-            print("Sphinx thinks you said " + r.recognize_sphinx(sa))
+            print("Google thinks you said " + r.recognize_google(sa))
         except sr.UnknownValueError:
-            print("Sphinx could not understand audio")
+            print("Google could not understand audio")
         except sr.RequestError as e:
-            print("Sphinx error; {0}".format(e))
+            print("Google error; {0}".format(e)) # sphinx error; missing PocketSphinx module: ensure that PocketSphinx is setup correctly
 
 
         for_test = the_audio_file.decode("utf-8") # update for_test to send to front-end
