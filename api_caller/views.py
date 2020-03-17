@@ -4,9 +4,34 @@ from rest_framework.views import APIView
 import requests
 import time
 import json
+from django.core.mail import send_mail
+from django.conf import settings
 
 with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
+
+def send_email(request):
+    subject = 'Thank you for registering to our site'
+    message = ' it  means a world to us '
+    email_from = settings.EMAIL_HOST_USER
+    recipient_list = ['nastinsk@gmail.com']
+    send_mail( subject, message, email_from, recipient_list )
+    return JsonResponse({'status': 'yess'})
+
+
+# def send_email():
+#     send_mail(
+#     'Subject here',
+#     'Here is the message.',
+#     'from@example.com',
+#     ['wheres.my.bus.seattle@gmail.com'],
+#     fail_silently=False,
+
+#     return JsonResponse({'status': 'yess'})
+# )
+
+
+
 
 ############################################################################################
 ## Post Route for Speech Recognition #######################################################
