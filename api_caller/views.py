@@ -6,6 +6,7 @@ import time
 import json
 import speech_recognition as sr
 import wave
+import base64
 
 with open('bus_routes/finalRoutesAndIds.json') as all_routes:
     route_data = json.load(all_routes)
@@ -27,10 +28,11 @@ class show_me_the_request(APIView):
     def post(self, request, lat, lon, format=None):
         theBusRoute = '8'
         the_audio_file = request.body # bytes
+        audio_bytes = base64.b64decode(the_audio_file)
 
         # the_audio_file = the_audio_file.decode("utf-8") # turn bytes into string again
 
-        print('is bytes?: ', isinstance(the_audio_file, bytes))
+        print('is bytes?: ', isinstance(audio_bytes, bytes))
         
         # https://docs.python.org/3/library/wave.html
         # wav = wave.open('temp.wav', 'wb')
@@ -45,7 +47,7 @@ class show_me_the_request(APIView):
         obj.setnchannels(1) # mono
         obj.setsampwidth(2)
         obj.setframerate(sampleRate)
-        obj.writeframesraw( the_audio_file )
+        obj.writeframesraw( audio_bytes )
         obj.close()
         
         # use the audio file as the audio source
