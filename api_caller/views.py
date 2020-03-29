@@ -33,6 +33,10 @@ class show_me_the_request(APIView):
         # the_audio_file = the_audio_file.decode("utf-8") # turn bytes into string again
 
         print('is bytes?: ', isinstance(audio_bytes, bytes))
+
+        file = open('sound.wav', 'wb')
+        file.write(audio_bytes)
+        file.close()
         
         # https://docs.python.org/3/library/wave.html
         # wav = wave.open('temp.wav', 'wb')
@@ -40,15 +44,15 @@ class show_me_the_request(APIView):
         # wav.writeframesraw(the_audio_file) #wav.Error #channels not specified
 
     # https://www.tutorialspoint.com/read-and-write-wav-files-using-python-wave
-        sampleRate = 44100.0 # hertz
-        duration = 1.0 # seconds
-        frequency = 440.0 # hertz
-        obj = wave.open('sound.wav','wb')
-        obj.setnchannels(1) # mono
-        obj.setsampwidth(2)
-        obj.setframerate(sampleRate)
-        obj.writeframesraw( audio_bytes )
-        obj.close()
+        # sampleRate = 44100.0 # hertz
+        # duration = 1.0 # seconds
+        # frequency = 440.0 # hertz
+        # obj = wave.open('sound.wav','wb')
+        # obj.setnchannels(1) # mono
+        # obj.setsampwidth(2)
+        # obj.setframerate(sampleRate)
+        # obj.writeframesraw( audio_bytes )
+        # obj.close()
         
         # use the audio file as the audio source
         r = sr.Recognizer()
