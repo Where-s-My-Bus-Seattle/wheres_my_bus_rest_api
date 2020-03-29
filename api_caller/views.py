@@ -26,7 +26,7 @@ class show_me_the_request(APIView):
     [Return(for each direction)]: [bus_id, direction, stop_name, arrival time (in minutes)]
     """
     def post(self, request, lat, lon, format=None):
-        theBusRoute = '8'
+        the_bus_route = '8'
         the_audio_file = request.body # bytes
         audio_bytes = base64.b64decode(the_audio_file)
 
@@ -61,16 +61,17 @@ class show_me_the_request(APIView):
 
         # recognize speech using google api
         try:
-            print("Google thinks you said " + r.recognize_google(sa))
+            the_bus_route = r.recognize_google(sa)
+            print("Google thinks you said " + the_bus_route)
         except sr.UnknownValueError:
             print("Google could not understand audio")
         except sr.RequestError as e:
             print("Google error; {0}".format(e)) # sphinx error; missing PocketSphinx module: ensure that PocketSphinx is setup correctly
 
 
-        for_test = the_audio_file.decode("utf-8") # update for_test to send to front-end
+        # for_test = the_audio_file.decode("utf-8") # update for_test to send to front-end
 
-        return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, theBusRoute, for_test)
+        return get_a_routes_closest_stop_and_arrival_time(request, lat, lon, the_bus_route, 'from_audio')
 
 
 ############################################################################################
